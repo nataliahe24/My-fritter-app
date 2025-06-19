@@ -1,0 +1,22 @@
+<footer class="footer">
+  <div class="footer__content">
+    <div class="footer__logo">
+      <app-logo size="small"></app-logo>
+    </div>
+    
+    <div class="footer__social">
+      <a *ngFor="let social of socialLinks"
+         [href]="social.url"
+         [attr.aria-label]="social.name"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="footer__social-link">
+        <i [class]="'fab fa-' + social.icon"></i>
+      </a>
+    </div>
+
+    <div class="footer__copyright">
+      © {{currentYear}} Mi Buñuelo Cúcuta. Todos los derechos reservados.
+    </div>
+  </div>
+</footer> 

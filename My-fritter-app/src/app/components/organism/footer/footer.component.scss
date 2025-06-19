@@ -1,0 +1,77 @@
+.footer {
+  background-color: #1a1a1a;
+  color: white;
+  padding: 2rem 0;
+  margin-top: auto;
+
+  &__content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  &__logo {
+    filter: brightness(0) invert(1);
+  }
+
+  &__social {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__social-link {
+    color: white;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+
+    &:hover {
+      transform: translateY(-3px);
+      background-color: #DC2626;
+    }
+
+    &[aria-label="Instagram"]:hover {
+      background: #d6249f;
+      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+    }
+
+    &[aria-label="Facebook"]:hover {
+      background-color: #1877f2;
+    }
+
+    &[aria-label="WhatsApp"]:hover {
+      background-color: #25D366;
+    }
+
+    &[aria-label="TikTok"]:hover {
+      background-color: #000000;
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, #25F4EE 0%, #FE2C55 100%);
+        z-index: -1;
+        border-radius: 50%;
+        margin: -2px;
+      }
+    }
+  }
+
+  &__copyright {
+    font-size: 0.875rem;
+    color: #9ca3af;
+    text-align: center;
+  }
+} 
