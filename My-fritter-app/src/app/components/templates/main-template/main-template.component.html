@@ -1,0 +1,19 @@
+<div class="template" [class.template--sidebar-collapsed]="isSidebarCollapsed">
+  <app-header class="template__header"></app-header>
+  
+  <div class="template__body">
+    <app-sidebar 
+      class="template__sidebar"
+      [class.template__sidebar--collapsed]="isSidebarCollapsed"
+      (toggleSidebar)="toggleSidebar()">
+    </app-sidebar>
+
+    <main class="template__main">
+      <div class="template__content">
+        <router-outlet></router-outlet>
+      </div>
+      
+      <app-footer class="template__footer"></app-footer>
+    </main>
+  </div>
+</div> 
