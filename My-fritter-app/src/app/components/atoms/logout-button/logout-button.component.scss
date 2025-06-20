@@ -5,7 +5,7 @@
   min-width: 35px;
   padding: 6px 5px;
   background-color: transparent; 
-  color: #7c7979;
+  color: #fdf5f5;
   border: none;
   border-radius:8px 8px;
   cursor: pointer;
@@ -13,12 +13,12 @@
 
   &:hover,
   &:focus {
-    background-color: #c9cdd1;
+    background-color: #eb6969;
     outline: none;
   }
 }
 
 .material-icons {
   font-size: 30px ;
-  color: #7c7979;
+  color: #fdf5f5;
 }

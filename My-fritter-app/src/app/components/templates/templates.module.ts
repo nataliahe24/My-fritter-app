@@ -4,10 +4,13 @@ import { RouterModule } from '@angular/router';
 import { MainTemplateComponent } from './main-template/main-template.component';
 import { MoleculesModule } from '../molecules/molecules.module';
 import { OrganismModule } from '../organism/organism.module';
+import { BuyerTemplateComponent } from './buyer-main-template/buyer-template.component';
+
 
 @NgModule({
   declarations: [
-    MainTemplateComponent
+    MainTemplateComponent,
+    BuyerTemplateComponent
   ],
   imports: [
     CommonModule,
@@ -16,7 +19,8 @@ import { OrganismModule } from '../organism/organism.module';
     OrganismModule
   ],
   exports: [
-    MainTemplateComponent
+    MainTemplateComponent,
+    BuyerTemplateComponent
   ]
 })
 export class TemplatesModule { } 

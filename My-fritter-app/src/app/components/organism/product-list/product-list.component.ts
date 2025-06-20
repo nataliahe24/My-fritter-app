@@ -12,8 +12,10 @@ import { ProductsService } from 'src/app/core/services/products/products.service
 export class ProductListComponent implements OnInit {
   products$?: Observable<Product[]>;
   currentPage$ = new BehaviorSubject<number>(0);
-  pageSize = 10;
+  pageSize = 5;
   hasMoreProducts = true;
+  currentPage = 1;
+  totalPages = 0;
 
   private readonly images: string[] = [
     'assets/images/Bunuelos.jpg',
@@ -31,6 +33,8 @@ export class ProductListComponent implements OnInit {
         const fetchedProducts = response.content || [];
         console.log('Products to Render:', fetchedProducts);
 
+        this.currentPage = response.page + 1; // Convert to 1-based for UI
+        this.totalPages = response.totalPages;
         this.hasMoreProducts = response.page < response.totalPages - 1;
 
         return fetchedProducts.map((product: Product, index: number) => ({
@@ -41,15 +45,8 @@ export class ProductListComponent implements OnInit {
     );
   }
 
-  nextPage(): void {
-    if (this.hasMoreProducts) {
-      this.currentPage$.next(this.currentPage$.value + 1);
-    }
-  }
-
-  previousPage(): void {
-    if (this.currentPage$.value > 0) {
-      this.currentPage$.next(this.currentPage$.value - 1);
-    }
+  onPageChange(page: number): void {
+    if (page === this.currentPage) return;
+    this.currentPage$.next(page - 1); // Convert to 0-based for API
   }
 } 

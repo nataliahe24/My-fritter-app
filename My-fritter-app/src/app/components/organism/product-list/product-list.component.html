@@ -13,11 +13,30 @@
     <p>Loading products...</p>
   </ng-template>
 
-  <div class="pagination-controls">
-    <button (click)="previousPage()" [disabled]="(currentPage$ | async) === 0">
-      Previous
+  <div class="pagination" *ngIf="totalPages > 0">
+    <button 
+      [disabled]="currentPage === 1"
+      (click)="onPageChange(currentPage - 1)"
+      class="pagination-btn"
+    >
+      <span class="material-icons">chevron_left</span>
     </button>
-    <span>Page {{ (currentPage$ | async)! + 1 }}</span>
-    <button (click)="nextPage()" [disabled]="!hasMoreProducts">Next</button>
+    
+    <button 
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+      [class.active]="currentPage === i + 1"
+      (click)="onPageChange(i + 1)"
+      class="pagination-btn"
+    >
+      {{ i + 1 }}
+    </button>
+    
+    <button 
+      [disabled]="currentPage === totalPages"
+      (click)="onPageChange(currentPage + 1)"
+      class="pagination-btn"
+    >
+      <span class="material-icons">chevron_right</span>
+    </button>
   </div>
-</div> 
+</div>
