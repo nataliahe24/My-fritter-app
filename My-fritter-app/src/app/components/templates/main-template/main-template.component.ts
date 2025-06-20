@@ -9,8 +9,7 @@ export class MainTemplateComponent {
   isSidebarCollapsed = true;
   
   navItems = [
-    { label: 'Productos', icon: 'inventory_2', route: '/admin/products' },
-    { label: 'Pedidos', icon: 'shopping_cart', route: '/admin/orders' },
+    { label: 'Productos', icon: 'inventory_2', route: '/products' },
     { label: 'Reportes', icon: 'analytics', route: '/admin/reports' },
     { label: 'Usuarios', icon: 'people', route: '/admin/users' },
   ];
