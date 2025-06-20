@@ -1,0 +1,23 @@
+<div class="product-list-container">
+  <div class="product-grid" *ngIf="products$ | async as products; else loading">
+    <app-product-card 
+      *ngFor="let product of products"
+      [name]="product.name"
+      [description]="product.description"
+      [price]="product.price"
+      [imageUrl]="product.imageUrl"
+    ></app-product-card>
+  </div>
+
+  <ng-template #loading>
+    <p>Loading products...</p>
+  </ng-template>
+
+  <div class="pagination-controls">
+    <button (click)="previousPage()" [disabled]="(currentPage$ | async) === 0">
+      Previous
+    </button>
+    <span>Page {{ (currentPage$ | async)! + 1 }}</span>
+    <button (click)="nextPage()" [disabled]="!hasMoreProducts">Next</button>
+  </div>
+</div> 
