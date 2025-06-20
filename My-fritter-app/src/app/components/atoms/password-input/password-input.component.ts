@@ -17,6 +17,7 @@ export class PasswordInputComponent implements ControlValueAccessor {
   @Input() placeholder: string = '';
   @Input() icon: string = 'lock';
   @Input() type: string = 'password';
+  @Input() hasError: boolean = false;
 
   value: string = '';
   showPassword: boolean = false;

@@ -29,22 +29,34 @@ export class LoginFormComponent {
       this.isLoading = true;
       this.errorMessage = '';
       
-      this.loginService.login(this.loginForm.value).subscribe({
+      const credentials = {
+        email: this.loginForm.get('email')?.value,
+        password: this.loginForm.get('password')?.value
+      };
+
+      this.loginService.login(credentials).subscribe({
         next: (response) => {
           this.isLoading = false;
-          if (this.loginService.isAdmin(response)) {
-            this.router.navigate(['/admin']);
-          } else if (this.loginService.isBuyer(response)) {
-            this.router.navigate(['/home']);
+          
+          if (response && response.id) {
+            this.loginService.setCurrentUser(response);
+            
+            if (this.loginService.isAdmin(response)) {
+              this.router.navigate(['/admin']);
+            } else if (this.loginService.isBuyer(response)) {
+              this.router.navigate(['/home']);
+            } else {
+              this.errorMessage = 'Rol de usuario no reconocido.';
+            }
           }
         },
         error: (error) => {
           this.isLoading = false;
-          console.error('Error en el login:', error);
           this.errorMessage = 'Credenciales inválidas. Por favor intente de nuevo.';
         }
       });
     } else {
+      console.log('LoginForm: Form is invalid');
       Object.keys(this.loginForm.controls).forEach(key => {
         const control = this.loginForm.get(key);
         if (control?.invalid) {

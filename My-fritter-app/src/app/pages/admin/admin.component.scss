@@ -1,0 +1,39 @@
+.wellcome-admin-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.wellcome-admin-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: black;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem 1rem;
+  border-radius: 1rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+
+@media (max-width: 500px) {
+  .wellcome-admin-page {
+    padding: 1rem;
+  }
+
+  .wellcome-admin-title {
+    font-size: 1rem;
+   
+  }
+}
+
+@media (max-width: 480px) {
+  .wellcome-admin-title {
+    font-size: 1.75rem;
+    padding: 1rem 1.5rem;
+  }
+}

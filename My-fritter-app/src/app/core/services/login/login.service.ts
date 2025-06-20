@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 })
 export class LoginService {
   private readonly loginUrl = `${environment.apiUrlLogin}`;
+  private currentUser: LoginResponse | null = null;
 
   constructor(private readonly http: HttpClient) {}
 
@@ -23,11 +24,51 @@ export class LoginService {
       );
   }
 
+  setCurrentUser(user: LoginResponse): void {
+    this.currentUser = user;
+    localStorage.setItem('currentUser', JSON.stringify(user));
+  }
+
+  getCurrentUser(): LoginResponse | null {
+    if (!this.currentUser) {
+      const stored = localStorage.getItem('currentUser');
+      if (stored) {
+        this.currentUser = JSON.parse(stored);
+      }
+    }
+    return this.currentUser;
+  }
+
+  logout(): void {
+    this.currentUser = null;
+    localStorage.removeItem('currentUser');
+  }
+
+  private getRoleName(response: LoginResponse): string {
+    if (typeof response.role === 'string') {
+      // Parse Java RoleEntity string format: "RoleEntity(id=1, name=ADMIN, description=Administrador del sistema)"
+      const roleString = response.role as string;
+      const nameMatch = roleString.match(/name=([^,]+)/);
+      if (nameMatch) {
+        return nameMatch[1];
+      }
+      return response.role;
+    }
+    
+    if (response.role && typeof response.role === 'object' && 'name' in response.role) {
+      return (response.role as any).name || '';
+    }
+    
+    return '';
+  }
+
   isAdmin(response: LoginResponse): boolean {
-    return response.role.toLowerCase() === 'admin';
+    const roleName = this.getRoleName(response);
+    return roleName.toLowerCase() === 'admin';
   }
 
   isBuyer(response: LoginResponse): boolean {
-    return response.role.toLowerCase() === 'buyer';
+    const roleName = this.getRoleName(response);
+    return roleName.toLowerCase() === 'buyer';
   }
 }

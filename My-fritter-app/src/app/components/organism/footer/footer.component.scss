@@ -1,8 +1,9 @@
 .footer {
-  background-color: #1a1a1a;
+  background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
   color: white;
   padding: 2rem 0;
   margin-top: auto;
+  box-shadow: 0 -4px 20px rgba(220, 38, 38, 0.3);
 
   &__content {
     max-width: 1200px;
@@ -14,9 +15,7 @@
     gap: 1.5rem;
   }
 
-  &__logo {
-    filter: brightness(0) invert(1);
-  }
+  
 
   &__social {
     display: flex;
@@ -32,27 +31,40 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.15);
+    text-decoration: none;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+
+    img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    
+    }
 
     &:hover {
       transform: translateY(-3px);
-      background-color: #DC2626;
+      background-color: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.4);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
     }
 
     &[aria-label="Instagram"]:hover {
-      background: #d6249f;
-      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+      background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+      border-color: #dc2743;
     }
 
     &[aria-label="Facebook"]:hover {
       background-color: #1877f2;
+      border-color: #1877f2;
     }
 
     &[aria-label="WhatsApp"]:hover {
       background-color: #25D366;
+      border-color: #25D366;
     }
 
     &[aria-label="TikTok"]:hover {
@@ -71,7 +83,9 @@
 
   &__copyright {
     font-size: 0.875rem;
-    color: #9ca3af;
+    color: rgba(255, 255, 255, 0.8);
     text-align: center;
+    font-weight: 300;
+    letter-spacing: 0.5px;
   }
 } 

@@ -8,5 +8,10 @@ export interface LoginResponse {
     name: string;
     email: string;
     message: string;
-    role: string;
+    role: Role;
 }
+export interface Role {
+    id: number;
+    name: string;
+    description: string;
+  }

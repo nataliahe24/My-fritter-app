@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LoginService } from 'src/app/core/services/login/login.service';
 
 interface NavItem {
   label: string;
@@ -11,16 +12,15 @@ interface NavItem {
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  isMenuOpen = false;
+  constructor(private readonly loginService: LoginService) {}
 
-  navItems: NavItem[] = [
-    { label: 'Inicio', route: '/home' },
-    { label: 'Productos', route: '/products' },
-    { label: 'Nosotros', route: '/about' },
-    { label: 'Contacto', route: '/contact' }
+  user = {
+    name: this.loginService.getCurrentUser()?.name ?? '',
+    avatar: '/assets/images/usuario.png'
+  };
+  menuItems = [
+    { icon: 'category', label: 'Categorías', route: '/categories'},
+    { icon: 'location_on', label: 'Ubicaciones', route: '/locations'},
+    { icon: 'person', label: 'Usuarios', route: '/users'}
   ];
-
-  toggleMenu(): void {
-    this.isMenuOpen = !this.isMenuOpen;
-  }
 } 

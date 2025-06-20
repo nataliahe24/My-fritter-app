@@ -8,5 +8,5 @@ import { Component, Input } from '@angular/core';
 export class LogoComponent {
   @Input() size: 'small' | 'medium' | 'large' = 'medium';
   @Input() alt: string = 'Mi Buñuelo Cúcuta';
-  @Input() src: string = 'assets/images/mi-bunuelo-cucuta-logo.png';
+  @Input() src: string = '/assets/images/mi-bunuelo-cucuta-logo.png';
 } 

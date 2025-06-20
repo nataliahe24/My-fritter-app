@@ -6,16 +6,31 @@ import { MoleculesModule } from '../components/molecules/molecules.module';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AtomsModule } from '../components/atoms/atoms.module';
+import { AdminComponent } from './admin/admin.component';
+import { TemplatesModule } from '../components/templates/templates.module';
+
 
 const routes: Routes = [
-  { path: 'login',
-     component: LoginComponent },
+    {
+      path: '',
+      children: [
+        {
+          path: '',
+          component: LoginComponent
+        },
+        {
+          path: 'admin',
+          component: AdminComponent
+        }
+      ]
+    }
   
 ];
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    AdminComponent,
   ],
   imports: [
     CommonModule,
@@ -23,7 +38,8 @@ const routes: Routes = [
     OrganismModule,
     MoleculesModule,
     AtomsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TemplatesModule
   ],
   exports: []
 })

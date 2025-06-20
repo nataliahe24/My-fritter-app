@@ -1,94 +1,38 @@
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+.main-header {
   background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0 1.5rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-  &__container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 1rem;
+
+  &__user-info {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-  }
-
-  &__logo {
-    z-index: 2;
-  }
-
-  &__menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    padding: 0.5rem;
-    cursor: pointer;
-    z-index: 2;
-
-    @media (max-width: 768px) {
-      display: block;
-    }
-
-    .material-icons {
-      font-size: 2rem;
+    gap: 1rem;
+    
+    .welcome-text {
+      font-size: 0.9rem;
       color: #333;
     }
-  }
+    
+    .user-icon, .logout-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      cursor: pointer;
+      transition: color 0.2s ease;
 
-  &__nav {
-    @media (max-width: 768px) {
-      position: fixed;
-      top: 0;
-      right: -100%;
-      width: 100%;
-      height: 100vh;
-      background-color: white;
-      padding-top: 5rem;
-      transition: right 0.3s ease;
+      &:hover {
+        color: #DC2626;
+      }
 
-      &--open {
-        right: 0;
+      .material-icons {
+        font-size: 24px;
       }
     }
   }
-
-  &__nav-list {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
-    @media (max-width: 768px) {
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-    }
-  }
-
-  &__nav-link {
-    color: #333;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    transition: all 0.2s ease;
-
-    &:hover {
-      color: #DC2626;
-      background-color: rgba(220, 38, 38, 0.1);
-    }
-
-    &--active {
-      color: #DC2626;
-      background-color: rgba(220, 38, 38, 0.1);
-    }
-
-    @media (max-width: 768px) {
-      font-size: 1.25rem;
-      padding: 1rem 2rem;
-    }
-  }
-} 
+}

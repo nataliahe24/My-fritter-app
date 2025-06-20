@@ -1,9 +1,5 @@
 <aside class="sidebar" [class.sidebar--collapsed]="!isExpanded">
   <div class="sidebar__header">
-    <app-logo 
-      [size]="isExpanded ? 'medium' : 'small'"
-      class="sidebar__logo">
-    </app-logo>
     <button 
       class="sidebar__toggle"
       (click)="toggleSidebar()"
