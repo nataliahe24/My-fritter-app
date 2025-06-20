@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { LoginDto, LoginResponse } from '../../models/login.model';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,10 @@ export class LoginService {
   private readonly loginUrl = `${environment.apiUrlLogin}`;
   private currentUser: LoginResponse | null = null;
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly router: Router
+  ) {}
 
   login(credentials: LoginDto): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.loginUrl, credentials)
@@ -42,6 +46,7 @@ export class LoginService {
   logout(): void {
     this.currentUser = null;
     localStorage.removeItem('currentUser');
+    this.router.navigate(['/login']);
   }
 
   private getRoleName(response: LoginResponse): string {

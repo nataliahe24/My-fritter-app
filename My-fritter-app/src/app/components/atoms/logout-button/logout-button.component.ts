@@ -17,7 +17,7 @@ export class LogoutButtonComponent {
 
   onLogout(): void {
     this.loginService.logout();
-    this.router.navigate(['/login']);
+    this.router.navigate(['']);
     this.logout.emit();
   }
 } 
