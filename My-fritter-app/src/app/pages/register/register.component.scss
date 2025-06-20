@@ -6,24 +6,7 @@
   position: relative;
   padding: 2rem;
   overflow: hidden;
-
-  &__background {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background-color: #3b0707;
-    background-image:
-      radial-gradient(
-        at 15% 20%,
-        hsla(0, 85%, 55%, 0.4) 0px,
-        transparent 50%
-      ),
-      radial-gradient(
-        at 80% 85%,
-        hsla(0, 80%, 45%, 0.4) 0px,
-        transparent 50%
-      );
-  }
+  color: red;
 
   app-user-form {
     position: relative; 
