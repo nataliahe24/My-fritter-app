@@ -52,6 +52,7 @@ export class LoginFormComponent {
         },
         error: (error) => {
           this.isLoading = false;
+          this.loginForm.reset();
           this.errorMessage = 'Credenciales inválidas. Por favor intente de nuevo.';
         }
       });
