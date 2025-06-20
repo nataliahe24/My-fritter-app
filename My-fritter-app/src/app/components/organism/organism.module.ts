@@ -5,22 +5,27 @@ import { FooterComponent } from './footer/footer.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { AtomsModule } from '../atoms/atoms.module';
 import { UserFormComponent } from './user-form/user-form.component';
+import { ProductListComponent } from './product-list/product-list.component';
+import { MoleculesModule } from '../molecules/molecules.module';
 
 @NgModule({
   declarations: [
     FooterComponent,
     LoginFormComponent,
-    UserFormComponent
+    UserFormComponent,
+    ProductListComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    AtomsModule
+    AtomsModule,
+    MoleculesModule
   ],
   exports: [
     FooterComponent,
     LoginFormComponent,
-    UserFormComponent
+    UserFormComponent,
+    ProductListComponent
   ]
 })
 export class OrganismModule { }
