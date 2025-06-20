@@ -4,15 +4,15 @@
   <div class="content-wrapper">
     
   <app-sidebar 
-  class="template__sidebar"
-  [class.template__sidebar--collapsed]="isSidebarCollapsed"
-  (toggleSidebar)="toggleSidebar()">
+    class="template__sidebar"
+    [class.template__sidebar--collapsed]="isSidebarCollapsed"
+    (toggleSidebar)="toggleSidebar()">
   </app-sidebar>
-    
-    <main class="main-content">
-      <ng-content></ng-content>
-    </main>
+  
+  <main class="main-content">
+    <ng-content></ng-content>
+  </main>
   </div>
   
-  <app-footer></app-footer>
+  <app-footer class="template__footer"></app-footer>
 </div> 
