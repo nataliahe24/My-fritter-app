@@ -2,8 +2,32 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
-  background-color: #f7f5f4;
+  padding: 2rem;
+  position: relative;
+  
+
+  &__background {
+    position: absolute;
+    inset: 0;
+    z-index: -1; 
+    background-color: #3b0707;
+    background-image:
+      radial-gradient(
+        at 15% 20%,
+        hsla(0, 85%, 55%, 0.4) 0px,
+        transparent 50%
+      ),
+      radial-gradient(
+        at 80% 85%,
+        hsla(0, 80%, 45%, 0.4) 0px,
+        transparent 50%
+      );
+  }
+
+  .user-form {
+    position: relative; 
+    z-index: 1;
+  }
 }
 
 .user-form {
