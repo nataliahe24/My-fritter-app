@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./main-template.component.scss']
 })
 export class MainTemplateComponent {
-  isSidebarCollapsed = false;
+  isSidebarCollapsed = true;
 
   toggleSidebar(): void {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;

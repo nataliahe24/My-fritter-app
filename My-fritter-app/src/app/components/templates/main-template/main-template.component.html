@@ -1,17 +1,18 @@
 <div class="template" [class.template--sidebar-collapsed]="isSidebarCollapsed">
   <app-header class="template__header"></app-header>
   
+  <div class="content-wrapper">
+    
   <app-sidebar 
-    class="template__sidebar"
-    [class.template__sidebar--collapsed]="isSidebarCollapsed"
-    (toggleSidebar)="toggleSidebar()">
+  class="template__sidebar"
+  [class.template__sidebar--collapsed]="isSidebarCollapsed"
+  (toggleSidebar)="toggleSidebar()">
   </app-sidebar>
-  
-  <main class="template__main">
-    <div class="template__content">
+    
+    <main class="main-content">
       <ng-content></ng-content>
-    </div>
-  </main>
+    </main>
+  </div>
   
-  <app-footer class="template__footer"></app-footer>
+  <app-footer></app-footer>
 </div> 

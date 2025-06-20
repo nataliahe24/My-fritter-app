@@ -1,0 +1,43 @@
+.wellcome-admin-page {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 8rem 2rem;
+}
+
+.wellcome-admin-title {
+  display: inline-block;
+  max-width: 100%;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.9rem;
+  font-weight: 400;
+  color: #333;
+  text-align: center;
+  background: #ffffff;
+  padding: 2.5rem 4rem;
+  border-radius: 1rem;
+  box-shadow:
+    0 10px 30px -5px rgba(0, 0, 0, 0.1),
+    0 5px 10px -5px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+  .wellcome-admin-page {
+    padding: 6rem 1.5rem;
+  }
+  .wellcome-admin-title {
+    font-size: 1.5rem;
+    padding: 2rem 3rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .wellcome-admin-page {
+    padding: 4rem 1rem;
+  }
+  .wellcome-admin-title {
+    font-size: 1.2rem;
+    padding: 1.5rem 1rem;
+  }
+}
