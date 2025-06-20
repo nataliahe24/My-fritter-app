@@ -10,19 +10,19 @@
   &__background {
     position: absolute;
     inset: 0;
-    background-image: url('/assets/images/buñuelos_fondo.avif');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     z-index: -2;
-
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(220, 38, 38, 0.3) 0%,rgba(153, 27, 27, 0.3) 100%);
-      z-index: -1;
-    }
+    background-color: #3b0707; 
+    background-image:
+      radial-gradient(
+        at 15% 20%,
+        hsla(0, 85%, 55%, 0.4) 0px, // Rojo más brillante y saturado
+        transparent 50%
+      ),
+      radial-gradient(
+        at 80% 85%,
+        hsla(0, 80%, 45%, 0.4) 0px, // Rojo secundario también más vivo
+        transparent 50%
+      );
   }
 
   &__container {
