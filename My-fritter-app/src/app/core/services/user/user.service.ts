@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { createUserDto, User } from '../../models/user.model';
 
 
 @Injectable({
@@ -8,15 +10,13 @@ import { Observable, throwError } from 'rxjs';
 })
 export class UsersService {
   private readonly API_URL = `${environment.apiUrlUsers}`;
-  private readonly SELLER_ROLE_ID = 3;
+  
 
   constructor(
     private readonly http: HttpClient,
-    private readonly notificationService: NotificationService
   ) {}
 
-  createUser(userData: CreateUserDto): Observable<User> {
-    const userWithRole = {
-      ...userData,
-      role: this.SELLER_ROLE_ID
-    };
+  createUser(userData: createUserDto): Observable<User> {
+    return this.http.post<User>(`${this.API_URL}`, userData);
+  }
+}

@@ -1,0 +1,14 @@
+<header class="main-header">
+  <div class="main-header__brand">
+    <app-logo size="medium"></app-logo>
+  </div>
+  <div class="main-header__user-info">
+    <span class="welcome-text">Bienvenido, {{ user.name }}</span>
+    <div class="user-icon" aria-label="User Account">
+      <span class="material-icons">
+        account_circle
+      </span>
+    </div>
+    <app-logout-button class="logout-icon"></app-logout-button>
+  </div>
+</header>

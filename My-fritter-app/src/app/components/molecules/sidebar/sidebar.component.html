@@ -1,0 +1,25 @@
+<aside class="sidebar" [class.sidebar--collapsed]="!isExpanded">
+  <div class="sidebar__header">
+    <button 
+      class="sidebar__toggle"
+      (click)="toggleSidebar()"
+      [attr.aria-label]="isExpanded ? 'Collapse sidebar' : 'Expand sidebar'">
+      <span class="material-icons">
+        {{ isExpanded ? 'chevron_left' : 'chevron_right' }}
+      </span>
+    </button>
+  </div>
+
+  <nav class="sidebar__nav">
+    <ul class="sidebar__nav-list">
+      <li *ngFor="let item of navItems" class="sidebar__nav-item">
+        <a [routerLink]="item.route" 
+           routerLinkActive="sidebar__nav-link--active"
+           class="sidebar__nav-link">
+          <span class="material-icons">{{ item.icon }}</span>
+          <span class="sidebar__nav-label" *ngIf="isExpanded">{{ item.label }}</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</aside> 

@@ -1,0 +1,24 @@
+.logo {
+  display: block;
+  object-fit: contain;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  &--small {
+    width: 80px;
+    height: auto;
+  }
+
+  &--medium {
+    width: 120px;
+    height: auto;
+  }
+
+  &--large {
+    width: 200px;
+    height: auto;
+  }
+} 

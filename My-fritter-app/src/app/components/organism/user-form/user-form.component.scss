@@ -1,0 +1,165 @@
+.user-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f7f5f4;
+}
+
+.user-form {
+  width: 100%;
+  max-width: 700px;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+  &__title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  &__row {
+    display: flex;
+    gap: 1rem;
+    
+    .user-form__field {
+      flex: 1;
+    }
+  }
+
+  &__field {
+    margin-bottom: 1.5rem;
+  }
+
+  &__label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+    border: 1px solid #ddd;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: #a5b4fc;
+      box-shadow: 0 0 0 3px rgba(165, 180, 252, 0.3);
+    }
+
+    &.ng-invalid.ng-touched {
+      border-color: #e53e3e;
+    }
+
+    &.ng-invalid.ng-touched:focus {
+      box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.2);
+    }
+  }
+
+  &__error {
+    font-size: 0.8rem;
+    color: #e53e3e;
+    padding-top: 0.25rem;
+  }
+
+  &__feedback {
+    min-height: 24px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  &__success {
+    color: #2f855a;
+    font-weight: 500;
+  }
+
+  &__error-message {
+    color: #e53e3e;
+    font-weight: 500;
+  }
+
+  &__submit {
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #dc2626;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+
+    &:hover {
+      background-color: #b91c1c;
+    }
+
+    &:disabled {
+      background-color: #f8b4b4;
+      cursor: not-allowed;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+.required {
+  color: #e53e3e;
+  margin-left: 2px;
+}
+.error-message {
+  font-size: 0.9rem;
+  color: #e53e3e;
+  padding-top: 0.25rem;
+  font-family: 'Poppins', sans-serif;
+}
+@media (max-width: 576px) {
+  .user-form {
+    padding: 1.5rem;
+  }
+  .user-form__title {
+    font-size: 1.5rem;
+  }
+}
+
+.password-input__wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .user-form__input {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+.password-input__icon {
+  position: absolute;
+  left: 0.75rem;
+  color: #9ca3af;
+  font-size: 1.25rem;
+}
+
+.password-input__toggle {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 0;
+  display: flex;
+  align-items: center;
+} 

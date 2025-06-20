@@ -1,0 +1,53 @@
+<div class="login-form">
+  <div class="login-form__header">
+    <app-logo></app-logo>
+    
+  </div>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form__form">
+    <div class="login-form__field">
+      <div class="login-form__input-wrapper">
+        <span class="material-icons">person</span>
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="Correo electrónico"
+          class="login-form__input"
+          [class.login-form__input--error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+        >
+      </div>
+      <div class="login-form__error" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+        {{ getErrorMessage('email') }}
+      </div>
+    </div>
+
+    <div class="login-form__field">
+      <app-password-input
+        formControlName="password"
+        placeholder="Contraseña"
+        [hasError]="(loginForm.get('password')?.invalid && loginForm.get('password')?.touched) ?? false"
+      ></app-password-input>
+      <div class="login-form__error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+        {{ getErrorMessage('password') }}
+      </div>
+    </div>
+
+    <div class="login-form__error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <button
+      type="submit"
+      class="login-form__submit"
+      [disabled]="loginForm.invalid || isLoading"
+    >
+      <span class="material-icons" *ngIf="!isLoading">login</span>
+      <span *ngIf="isLoading">Cargando...</span>
+      <span *ngIf="!isLoading">Iniciar Sesión</span>
+    </button>
+  </form>
+
+  <div class="login-form__footer">
+    <p>¿No tienes una cuenta? <a href="/register">Regístrate aquí</a></p>
+  </div>
+</div> 
