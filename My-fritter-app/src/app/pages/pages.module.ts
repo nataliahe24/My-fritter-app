@@ -10,6 +10,7 @@ import { AdminComponent } from './admin/admin.component';
 import { TemplatesModule } from '../components/templates/templates.module';
 import { RegisterComponent } from './register/register.component';
 import { BuyerComponent } from './buyer/buyer.component';
+import { ProductsPageComponent } from './products-page/products-page.component';
 
 
 const routes: Routes = [
@@ -31,6 +32,10 @@ const routes: Routes = [
         {
           path: 'register',
           component: RegisterComponent
+        },
+        { 
+          path: 'products',
+          component: ProductsPageComponent
         }
       ]
     }
@@ -42,7 +47,8 @@ const routes: Routes = [
     LoginComponent,
     AdminComponent,
     RegisterComponent,
-    BuyerComponent
+    BuyerComponent,
+    ProductsPageComponent
   ],
   imports: [
     CommonModule,
@@ -53,6 +59,12 @@ const routes: Routes = [
     MoleculesModule,
     AtomsModule
   ],
-  exports: []
+  exports: [
+    LoginComponent,
+    AdminComponent,
+    BuyerComponent,
+    RegisterComponent,
+    ProductsPageComponent
+  ]
 })
 export class PagesModule { } 

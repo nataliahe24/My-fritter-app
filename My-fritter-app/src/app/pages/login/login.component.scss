@@ -11,16 +11,16 @@
     position: absolute;
     inset: 0;
     z-index: -2;
-    background-color: #3b0707; 
+    background-color: #aa1a1a;
     background-image:
       radial-gradient(
         at 15% 20%,
-        hsla(0, 85%, 55%, 0.4) 0px, // Rojo más brillante y saturado
+        rgba(224, 67, 67, 0.4) 0px,
         transparent 50%
       ),
       radial-gradient(
         at 80% 85%,
-        hsla(0, 80%, 45%, 0.4) 0px, // Rojo secundario también más vivo
+        rgba(224, 67, 67, 0.4) 0px,
         transparent 50%
       );
   }
