@@ -106,7 +106,10 @@
 
 
     <div class="user-form__field">
-      <label for="password" class="user-form__label">Contraseña</label>
+      <label for="password" class="user-form__label">
+        Contraseña
+        <span *ngIf="true" class="required" aria-hidden="true">*</span>
+      </label>
       <div class="password-input__wrapper">
         <span class="material-icons password-input__icon">{{ icon }}</span>
         <input
