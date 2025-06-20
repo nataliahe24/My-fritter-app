@@ -12,7 +12,7 @@ interface NavItem {
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
-  isExpanded = true;
+  isExpanded = false;
 
   navItems: NavItem[] = [
     { label: 'Inicio', icon: 'home', route: '/home' },
