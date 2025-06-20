@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AtomsModule } from '../components/atoms/atoms.module';
 import { AdminComponent } from './admin/admin.component';
 import { TemplatesModule } from '../components/templates/templates.module';
+import { RegisterComponent } from './register/register.component';
 import { BuyerComponent } from './buyer/buyer.component';
 
 
@@ -26,6 +27,10 @@ const routes: Routes = [
         {
           path: 'buyer',
           component: BuyerComponent
+        },
+        {
+          path: 'register',
+          component: RegisterComponent
         }
       ]
     }
@@ -36,16 +41,17 @@ const routes: Routes = [
   declarations: [
     LoginComponent,
     AdminComponent,
+    RegisterComponent,
     BuyerComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    ReactiveFormsModule,
+    TemplatesModule,
     OrganismModule,
     MoleculesModule,
-    AtomsModule,
-    ReactiveFormsModule,
-    TemplatesModule
+    AtomsModule
   ],
   exports: []
 })

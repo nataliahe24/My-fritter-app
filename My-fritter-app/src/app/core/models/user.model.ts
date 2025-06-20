@@ -18,4 +18,5 @@ export interface createUserDto {
     birthDate: Date;
     email: string;
     password: string;
+    role: string;
 }

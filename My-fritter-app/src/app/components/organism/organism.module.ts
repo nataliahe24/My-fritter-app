@@ -4,11 +4,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FooterComponent } from './footer/footer.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { AtomsModule } from '../atoms/atoms.module';
+import { UserFormComponent } from './user-form/user-form.component';
 
 @NgModule({
   declarations: [
     FooterComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    UserFormComponent
   ],
   imports: [
     CommonModule,
@@ -17,7 +19,8 @@ import { AtomsModule } from '../atoms/atoms.module';
   ],
   exports: [
     FooterComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    UserFormComponent
   ]
 })
 export class OrganismModule { }
