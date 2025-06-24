@@ -7,13 +7,15 @@ import { AtomsModule } from '../atoms/atoms.module';
 import { UserFormComponent } from './user-form/user-form.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { MoleculesModule } from '../molecules/molecules.module';
+import { ProductFormComponent } from './product-form/product-form.component';
 
 @NgModule({
   declarations: [
     FooterComponent,
     LoginFormComponent,
     UserFormComponent,
-    ProductListComponent
+    ProductListComponent,
+    ProductFormComponent,
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,8 @@ import { MoleculesModule } from '../molecules/molecules.module';
     FooterComponent,
     LoginFormComponent,
     UserFormComponent,
-    ProductListComponent
+    ProductListComponent,
+    ProductFormComponent
   ]
 })
 export class OrganismModule { }

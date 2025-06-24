@@ -1,0 +1,63 @@
+<div class="product-form-container">
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
+    <h2 class="product-form__title">Crear producto</h2>
+
+    <div class="product-form__field">
+      <app-input
+        label="Nombre"
+        formControlName="name"
+        placeholder="Nombre del producto"
+        [required]="true"
+        [ngClass]="productForm.get('name')?.touched && productForm.get('name')?.invalid ? 'input-error' : ''"
+      ></app-input>
+      <span *ngIf="productForm.get('name')?.touched && productForm.get('name')?.invalid" class="error-message">
+        {{ getErrorMessage('name') }}
+      </span>
+    </div>
+
+    <div class="product-form__field">
+      <app-input
+        label="Descripción"
+        formControlName="description"
+        placeholder="Descripción del producto"
+        [required]="true"
+        [ngClass]="productForm.get('description')?.touched && productForm.get('description')?.invalid ? 'input-error' : ''"
+      ></app-input>
+      <span *ngIf="productForm.get('description')?.touched && productForm.get('description')?.invalid" class="error-message">
+        {{ getErrorMessage('description') }}
+      </span>
+    </div>
+
+    <div class="product-form__field">
+      <app-input
+        label="Precio"
+        formControlName="price"
+        placeholder="Precio"
+        type="number"
+        [required]="true"
+        [ngClass]="productForm.get('price')?.touched && productForm.get('price')?.invalid ? 'input-error' : ''"
+      ></app-input>
+      <span *ngIf="productForm.get('price')?.touched && productForm.get('price')?.invalid" class="error-message">
+        {{ getErrorMessage('price') }}
+      </span>
+    </div>
+
+    <div class="product-form__feedback">
+      <div *ngIf="errorMessage" class="product-form__error-message">
+        {{ errorMessage }}
+      </div>
+      <div *ngIf="successMessage" class="product-form__success-message">
+        {{ successMessage }}
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      class="product-form__submit"
+      [disabled]="productForm.invalid || isLoading"
+    >
+      <span *ngIf="!isLoading">Crear</span>
+      <span *ngIf="isLoading">Creando...</span>
+    </button>
+  </form>
+</div> 
