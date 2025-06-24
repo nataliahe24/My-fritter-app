@@ -1,44 +1,49 @@
-.wellcome-admin-page {
+.admin-page {
   width: 100%;
-  min-height: calc(100vh - 150px); // Ajusta a toda la altura disponible menos header/footer
+  min-height: calc(100vh - 150px);
   box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 8rem 2rem;
-  text-align: center;
+  padding: 2rem;
 }
 
-.wellcome-admin-title {
-  max-width: 90%; 
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.9rem;
-  font-weight: 400;
-  color: #333;
-  background: #ffffff;
-  padding: 2.5rem 4rem;
-  border-radius: 1rem;
-  box-shadow:
-    0 10px 30px -5px rgba(0, 0, 0, 0.1),
-    0 5px 10px -5px rgba(0, 0, 0, 0.05);
+.admin-header {
+  text-align: center;
+  margin-bottom: 3rem;
 }
+
+.admin-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 0.5rem;
+}
+
+.admin-subtitle {
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin: 0;
+}
+
 @media (max-width: 768px) {
-  .wellcome-admin-page {
-    padding: 6rem 1.5rem;
+  .admin-page {
+    padding: 1.5rem;
   }
-  .wellcome-admin-title {
-    font-size: 1.5rem;
-    padding: 2rem 3rem;
+  
+  .admin-title {
+    font-size: 2rem;
+  }
+  
+  .admin-subtitle {
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 576px) {
-  .wellcome-admin-page {
-    padding: 4rem 1rem;
+  .admin-page {
+    padding: 1rem;
   }
-  .wellcome-admin-title {
-    font-size: 1.2rem;
-    padding: 1.5rem 1rem;
+  
+  .admin-title {
+    font-size: 1.75rem;
   }
 }

@@ -1,5 +1,15 @@
 <div class="product-card">
-  <img [src]="imageUrl" [alt]="name" class="product-card__image" />
+  <div class="product-card__image-container">
+    <img [src]="imageUrl" [alt]="name" class="product-card__image" />
+    <button 
+      *ngIf="showEditButton"
+      class="product-card__edit-btn"
+      (click)="onEditClick()"
+      aria-label="Editar producto"
+    >
+      <span class="material-icons">edit</span>
+    </button>
+  </div>
   <div class="product-card__content">
     <h3 class="product-card__name">{{ name }}</h3>
     <p class="product-card__description">{{ description }}</p>

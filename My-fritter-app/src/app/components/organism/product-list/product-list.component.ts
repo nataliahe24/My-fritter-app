@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Product } from 'src/app/core/models/product.model';
+import { Product, UpdateProductDto } from 'src/app/core/models/product.model';
 import { ProductsService } from 'src/app/core/services/products/products.service';
 
 @Component({
@@ -10,12 +10,19 @@ import { ProductsService } from 'src/app/core/services/products/products.service
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
+  @Input() isAdmin = false;
+  @Output() productUpdated = new EventEmitter<void>();
+
   products$?: Observable<Product[]>;
   currentPage$ = new BehaviorSubject<number>(0);
   pageSize = 5;
   hasMoreProducts = true;
   currentPage = 1;
   totalPages = 0;
+  isModalOpen = false;
+  selectedProduct: Product | null = null;
+  isLoading = false;
+  errorMessage = '';
 
   private readonly images: string[] = [
     'assets/images/Bunuelos.jpg',
@@ -48,5 +55,39 @@ export class ProductListComponent implements OnInit {
   onPageChange(page: number): void {
     if (page === this.currentPage) return;
     this.currentPage$.next(page - 1); // Convert to 0-based for API
+  }
+
+  onEditProduct(product: Product): void {
+    this.selectedProduct = product;
+    this.isModalOpen = true;
+  }
+
+  onCloseModal(): void {
+    this.isModalOpen = false;
+    this.selectedProduct = null;
+    this.errorMessage = '';
+  }
+
+  onUpdateProduct(event: {id: string, data: UpdateProductDto}): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    console.log('Updating product with ID:', event.id, 'Data:', event.data);
+
+    this.productsService.updateProduct(event.id, event.data).subscribe({
+      next: (response) => {
+        console.log('Product updated successfully:', response);
+        this.isLoading = false;
+        this.onCloseModal();
+        this.productUpdated.emit();
+        // Refresh the current page
+        this.currentPage$.next(this.currentPage$.value);
+      },
+      error: (err) => {
+        console.error('Error updating product:', err);
+        this.isLoading = false;
+        this.errorMessage = 'Error al actualizar el producto. Por favor, intente de nuevo.';
+      }
+    });
   }
 } 

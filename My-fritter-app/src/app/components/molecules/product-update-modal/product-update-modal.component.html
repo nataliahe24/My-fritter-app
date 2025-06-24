@@ -1,0 +1,82 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2 class="modal-title">Actualizar Producto</h2>
+      <button 
+        type="button" 
+        class="modal-close" 
+        (click)="onClose()"
+        aria-label="Cerrar modal"
+      >
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+
+    <form [formGroup]="updateForm" (ngSubmit)="onSubmit()" class="modal-form">
+      <div class="form-field">
+        <app-input
+          label="Nombre"
+          formControlName="name"
+          placeholder="Nombre del producto"
+          [required]="true"
+          [ngClass]="updateForm.get('name')?.touched && updateForm.get('name')?.invalid ? 'input-error' : ''"
+        ></app-input>
+        <span *ngIf="updateForm.get('name')?.touched && updateForm.get('name')?.invalid" class="error-message">
+          {{ getErrorMessage('name') }}
+        </span>
+      </div>
+
+      <div class="form-field">
+        <app-input
+          label="Descripción"
+          formControlName="description"
+          placeholder="Descripción del producto"
+          [required]="true"
+          [ngClass]="updateForm.get('description')?.touched && updateForm.get('description')?.invalid ? 'input-error' : ''"
+        ></app-input>
+        <span *ngIf="updateForm.get('description')?.touched && updateForm.get('description')?.invalid" class="error-message">
+          {{ getErrorMessage('description') }}
+        </span>
+      </div>
+
+      <div class="form-field">
+        <app-input
+          label="Precio"
+          formControlName="price"
+          placeholder="Precio"
+          type="number"
+          [required]="true"
+          [ngClass]="updateForm.get('price')?.touched && updateForm.get('price')?.invalid ? 'input-error' : ''"
+        ></app-input>
+        <span *ngIf="updateForm.get('price')?.touched && updateForm.get('price')?.invalid" class="error-message">
+          {{ getErrorMessage('price') }}
+        </span>
+      </div>
+
+      <div class="form-feedback" *ngIf="errorMessage">
+        <div class="error-message">
+          {{ errorMessage }}
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="onClose()"
+          [disabled]="isLoading"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="updateForm.invalid || isLoading"
+        >
+          <span *ngIf="!isLoading">Actualizar</span>
+          <span *ngIf="isLoading">Actualizando...</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div> 

@@ -6,6 +6,8 @@
       [description]="product.description"
       [price]="product.price"
       [imageUrl]="product.imageUrl"
+      [showEditButton]="isAdmin"
+      (editProduct)="onEditProduct(product)"
     ></app-product-card>
   </div>
 
@@ -39,4 +41,13 @@
       <span class="material-icons">chevron_right</span>
     </button>
   </div>
+
+  <!-- Product Update Modal -->
+  <app-product-update-modal
+    [product]="selectedProduct"
+    [isOpen]="isModalOpen"
+    [isLoading]="isLoading"
+    (closeModal)="onCloseModal()"
+    (updateProduct)="onUpdateProduct($event)"
+  ></app-product-update-modal>
 </div>

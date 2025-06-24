@@ -30,17 +30,17 @@ export class ProductsService {
   }
 
   // GET - Get a single product by ID
-  getProductById(id: number): Observable<Product> {
+  getProductById(id: string): Observable<Product> {
     return this.http.get<Product>(`${this.API_URL}/${id}`)
       .pipe(catchError(this.handleError));
   }
 
-  updateProduct(id: number, productData: UpdateProductDto): Observable<Product> {
+  updateProduct(id: string, productData: UpdateProductDto): Observable<Product> {
     return this.http.put<Product>(`${this.API_URL}/${id}`, productData)
       .pipe(catchError(this.handleError));
   }
 
-  deleteProduct(id: number): Observable<void> {
+  deleteProduct(id: string): Observable<void> {
     return this.http.delete<void>(`${this.API_URL}/${id}`)
       .pipe(catchError(this.handleError));
   }
