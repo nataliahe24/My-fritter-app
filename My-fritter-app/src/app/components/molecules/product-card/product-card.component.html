@@ -1,6 +1,11 @@
 <div class="product-card">
   <div class="product-card__image-container">
-    <img [src]="imageUrl" [alt]="name" class="product-card__image" />
+    <img 
+      [src]="currentImageUrl" 
+      [alt]="name" 
+      class="product-card__image"
+      (error)="onImageError()"
+    />
     <button 
       *ngIf="showEditButton"
       class="product-card__edit-btn"

@@ -53,6 +53,60 @@
         </span>
       </div>
 
+      <!-- Image Upload Field -->
+      <div class="form-field">
+        <label class="form-label">
+          Imagen del Producto
+          <span class="required" aria-hidden="true">*</span>
+        </label>
+        
+        <div class="image-upload-container">
+          <div class="image-preview" *ngIf="imagePreview">
+            <img [src]="imagePreview" alt="Preview" class="preview-image" />
+            <button 
+              type="button" 
+              class="remove-image-btn"
+              (click)="removeImage()"
+              aria-label="Remover imagen"
+            >
+              <span class="material-icons">close</span>
+            </button>
+          </div>
+          
+          <div class="upload-area" *ngIf="!imagePreview">
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onImageSelect($event)"
+              class="file-input"
+              id="imageUpload"
+            />
+            <label for="imageUpload" class="upload-label">
+              <span class="material-icons">add_photo_alternate</span>
+              <span>Seleccionar imagen</span>
+            </label>
+          </div>
+          
+          <div class="upload-area" *ngIf="imagePreview">
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onImageSelect($event)"
+              class="file-input"
+              id="imageUploadChange"
+            />
+            <label for="imageUploadChange" class="upload-label">
+              <span class="material-icons">edit</span>
+              <span>Cambiar imagen</span>
+            </label>
+          </div>
+        </div>
+        
+        <p class="upload-hint">
+          Formatos permitidos: JPG, PNG, GIF. Tamaño máximo: 5MB
+        </p>
+      </div>
+
       <div class="form-feedback" *ngIf="errorMessage">
         <div class="error-message">
           {{ errorMessage }}

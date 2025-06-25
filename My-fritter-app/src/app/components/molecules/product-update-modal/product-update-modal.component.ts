@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Product, UpdateProductDto } from 'src/app/core/models/product.model';
+import { ProductsService } from 'src/app/core/services/products/products.service';
 
 @Component({
   selector: 'app-product-update-modal',
@@ -12,12 +13,17 @@ export class ProductUpdateModalComponent implements OnInit, OnChanges {
   @Input() isOpen = false;
   @Input() isLoading = false;
   @Output() closeModal = new EventEmitter<void>();
-  @Output() updateProduct = new EventEmitter<{id: string, data: UpdateProductDto}>();
+  @Output() updateProduct = new EventEmitter<{id: string, data: UpdateProductDto, imageFile?: File}>();
 
   updateForm!: FormGroup;
   errorMessage = '';
+  selectedImage: File | null = null;
+  imagePreview: string | null = null;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private productsService: ProductsService
+  ) {}
 
   ngOnInit(): void {
     this.updateForm = this.fb.group({
@@ -34,7 +40,41 @@ export class ProductUpdateModalComponent implements OnInit, OnChanges {
         description: this.product.description,
         price: this.product.price
       });
+      this.imagePreview = this.product.imageUrl;
+      this.selectedImage = null;
     }
+  }
+
+  onImageSelect(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      // Validar tipo de archivo
+      if (!file.type.startsWith('image/')) {
+        this.errorMessage = 'Por favor selecciona un archivo de imagen válido.';
+        return;
+      }
+
+      // Validar tamaño (máximo 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        this.errorMessage = 'La imagen debe ser menor a 5MB.';
+        return;
+      }
+
+      this.selectedImage = file;
+      this.errorMessage = '';
+
+      // Crear preview de la imagen
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imagePreview = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  removeImage(): void {
+    this.selectedImage = null;
+    this.imagePreview = this.product?.imageUrl || null;
   }
 
   onSubmit(): void {
@@ -53,12 +93,14 @@ export class ProductUpdateModalComponent implements OnInit, OnChanges {
 
     console.log('Sending update request:', {
       id: this.product.id,
-      data: updateData
+      data: updateData,
+      hasNewImage: !!this.selectedImage
     });
 
     this.updateProduct.emit({
       id: this.product.id,
-      data: updateData
+      data: updateData,
+      imageFile: this.selectedImage || undefined
     });
   }
 
@@ -66,6 +108,8 @@ export class ProductUpdateModalComponent implements OnInit, OnChanges {
     this.closeModal.emit();
     this.updateForm.reset();
     this.errorMessage = '';
+    this.selectedImage = null;
+    this.imagePreview = null;
   }
 
   onBackdropClick(event: Event): void {

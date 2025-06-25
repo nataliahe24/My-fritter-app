@@ -13,6 +13,22 @@ export class ProductCardComponent {
   @Input() showEditButton = false;
   @Output() editProduct = new EventEmitter<void>();
 
+  fallbackImage = 'assets/images/Bunuelos.jpg';
+  currentImageUrl = '';
+
+  ngOnInit(): void {
+    this.currentImageUrl = this.imageUrl;
+  }
+
+  ngOnChanges(): void {
+    this.currentImageUrl = this.imageUrl;
+  }
+
+  onImageError(): void {
+    console.log('Image failed to load:', this.imageUrl);
+    this.currentImageUrl = this.fallbackImage;
+  }
+
   onEditClick(): void {
     this.editProduct.emit();
   }

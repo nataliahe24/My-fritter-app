@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Product, UpdateProductDto } from 'src/app/core/models/product.model';
 import { ProductsService } from 'src/app/core/services/products/products.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-product-list',
@@ -24,7 +25,7 @@ export class ProductListComponent implements OnInit {
   isLoading = false;
   errorMessage = '';
 
-  private readonly images: string[] = [
+  private readonly fallbackImages: string[] = [
     'assets/images/Bunuelos.jpg',
     'assets/images/buñuelo2.png',
     'assets/images/buñuelo1.png',
@@ -44,10 +45,25 @@ export class ProductListComponent implements OnInit {
         this.totalPages = response.totalPages;
         this.hasMoreProducts = response.page < response.totalPages - 1;
 
-        return fetchedProducts.map((product: Product, index: number) => ({
-          ...product,
-          imageUrl: this.images[index % this.images.length],
-        }));
+        return fetchedProducts.map((product: Product, index: number) => {
+          console.log('Product from backend:', product);
+          console.log('Backend imageId:', product.imageId);
+          
+          // Construct image URL using imageId and the correct endpoint
+          let finalImageUrl: string;
+          if (product.imageId && product.imageId.trim() !== '') {
+            finalImageUrl = `${environment.imageEndpoint}/${product.imageId}`;
+          } else {
+            finalImageUrl = this.fallbackImages[index % this.fallbackImages.length];
+          }
+          
+          console.log('Final imageUrl to display:', finalImageUrl);
+          
+          return {
+            ...product,
+            imageUrl: finalImageUrl,
+          };
+        });
       })
     );
   }
@@ -68,26 +84,46 @@ export class ProductListComponent implements OnInit {
     this.errorMessage = '';
   }
 
-  onUpdateProduct(event: {id: string, data: UpdateProductDto}): void {
+  onUpdateProduct(event: {id: string, data: UpdateProductDto, imageFile?: File}): void {
     this.isLoading = true;
     this.errorMessage = '';
 
-    console.log('Updating product with ID:', event.id, 'Data:', event.data);
+    console.log('Updating product with ID:', event.id, 'Data:', event.data, 'Has file:', !!event.imageFile);
 
-    this.productsService.updateProduct(event.id, event.data).subscribe({
-      next: (response) => {
-        console.log('Product updated successfully:', response);
-        this.isLoading = false;
-        this.onCloseModal();
-        this.productUpdated.emit();
-        // Refresh the current page
-        this.currentPage$.next(this.currentPage$.value);
-      },
-      error: (err) => {
-        console.error('Error updating product:', err);
-        this.isLoading = false;
-        this.errorMessage = 'Error al actualizar el producto. Por favor, intente de nuevo.';
-      }
-    });
+    if (event.imageFile) {
+      
+      this.productsService.updateProductWithFile(event.id, event.data, event.imageFile).subscribe({
+        next: (response) => {
+          console.log('Product updated successfully with file:', response);
+          this.isLoading = false;
+          this.onCloseModal();
+          this.productUpdated.emit();
+          
+          this.currentPage$.next(this.currentPage$.value);
+        },
+        error: (err) => {
+          console.error('Error updating product with file:', err);
+          this.isLoading = false;
+          this.errorMessage = 'Error al actualizar el producto. Por favor, intente de nuevo.';
+        }
+      });
+    } else {
+     
+      this.productsService.updateProduct(event.id, event.data).subscribe({
+        next: (response) => {
+          console.log('Product updated successfully:', response);
+          this.isLoading = false;
+          this.onCloseModal();
+          this.productUpdated.emit();
+         
+          this.currentPage$.next(this.currentPage$.value);
+        },
+        error: (err) => {
+          console.error('Error updating product:', err);
+          this.isLoading = false;
+          this.errorMessage = 'Error al actualizar el producto. Por favor, intente de nuevo.';
+        }
+      });
+    }
   }
 } 

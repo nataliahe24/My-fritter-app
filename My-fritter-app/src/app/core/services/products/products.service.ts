@@ -13,8 +13,23 @@ export class ProductsService {
 
   constructor(private readonly http: HttpClient) {}
 
-  // POST - Create a new product
-  createProduct(productData: CreateProductDto): Observable<Product> {
+  // POST - Create a new product with file upload
+  createProduct(productData: CreateProductDto, imageFile?: File): Observable<Product> {
+    const formData = new FormData();
+    formData.append('name', productData.name);
+    formData.append('description', productData.description);
+    formData.append('price', productData.price.toString());
+    
+    if (imageFile) {
+      formData.append('image', imageFile);
+    }
+
+    return this.http.post<Product>(this.API_URL, formData)
+      .pipe(catchError(this.handleError));
+  }
+
+  // POST - Create a new product (legacy method for backward compatibility)
+  createProductLegacy(productData: CreateProductDto): Observable<Product> {
     return this.http.post<Product>(this.API_URL, productData)
       .pipe(catchError(this.handleError));
   }
@@ -37,6 +52,27 @@ export class ProductsService {
 
   updateProduct(id: string, productData: UpdateProductDto): Observable<Product> {
     return this.http.put<Product>(`${this.API_URL}/${id}`, productData)
+      .pipe(catchError(this.handleError));
+  }
+
+  updateProductWithFile(id: string, productData: UpdateProductDto, imageFile?: File): Observable<Product> {
+    const formData = new FormData();
+    
+    if (productData.name) {
+      formData.append('name', productData.name);
+    }
+    if (productData.description) {
+      formData.append('description', productData.description);
+    }
+    if (productData.price !== undefined) {
+      formData.append('price', productData.price.toString());
+    }
+    
+    if (imageFile) {
+      formData.append('image', imageFile);
+    }
+
+    return this.http.put<Product>(`${this.API_URL}/${id}`, formData)
       .pipe(catchError(this.handleError));
   }
 
