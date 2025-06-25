@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Product, CreateProductDto, UpdateProductDto } from '../../models/product.model';
+import { NotificationService } from '../notifications/notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,10 @@ import { Product, CreateProductDto, UpdateProductDto } from '../../models/produc
 export class ProductsService {
   private readonly API_URL = `${environment.apiUrlProduct}`;
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly notificationService: NotificationService
+  ) {}
 
 
   createProduct(productData: CreateProductDto, imageFile?: File): Observable<Product> {
@@ -83,13 +87,27 @@ export class ProductsService {
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
-    let errorMessage = 'An error occurred';
+    let errorMessage = 'Ha ocurrido un error';
+    
     if (error.error instanceof ErrorEvent) {
-      errorMessage = `Error: ${error.error.message}`;
+      errorMessage = 'Error de conexión. Por favor, intente nuevamente.';
     } else {
-      errorMessage = `Error Code: ${error.status}\\nMessage: ${error.message}`;
+      switch (error.status) {
+        case 403:
+          errorMessage = error.error?.message || 'No tienes permisos para realizar esta acción';
+          break;
+        case 400:
+          errorMessage = error.error?.message || 'Datos inválidos';
+          break;
+        case 500:
+          errorMessage = error.error?.message || 'Error del servidor';
+          break;
+        default:
+          errorMessage = error.error?.message || `Error ${error.status}`;
+      }
     }
-    console.error(errorMessage);
+
+    this.notificationService.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
 }
