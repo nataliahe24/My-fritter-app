@@ -11,7 +11,9 @@ export class ProductCardComponent {
   @Input() description = 'Product description';
   @Input() price: number | null = null;
   @Input() showEditButton = false;
+  @Input() showDeleteButton = false;
   @Output() editProduct = new EventEmitter<void>();
+  @Output() deleteProduct = new EventEmitter<void>();
 
   fallbackImage = 'assets/images/Bunuelos.jpg';
   currentImageUrl = '';
@@ -31,5 +33,9 @@ export class ProductCardComponent {
 
   onEditClick(): void {
     this.editProduct.emit();
+  }
+
+  onDeleteClick(): void {
+    this.deleteProduct.emit();
   }
 } 

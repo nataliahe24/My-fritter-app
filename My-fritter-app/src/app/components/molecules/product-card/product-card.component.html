@@ -6,14 +6,24 @@
       class="product-card__image"
       (error)="onImageError()"
     />
-    <button 
-      *ngIf="showEditButton"
-      class="product-card__edit-btn"
-      (click)="onEditClick()"
-      aria-label="Editar producto"
-    >
-      <span class="material-icons">edit</span>
-    </button>
+    <div class="product-card__actions" *ngIf="showEditButton || showDeleteButton">
+      <button 
+        *ngIf="showEditButton"
+        class="product-card__edit-btn"
+        (click)="onEditClick()"
+        aria-label="Editar producto"
+      >
+        <span class="material-icons">edit</span>
+      </button>
+      <button 
+        *ngIf="showDeleteButton"
+        class="product-card__delete-btn"
+        (click)="onDeleteClick()"
+        aria-label="Eliminar producto"
+      >
+        <span class="material-icons">delete</span>
+      </button>
+    </div>
   </div>
   <div class="product-card__content">
     <h3 class="product-card__name">{{ name }}</h3>

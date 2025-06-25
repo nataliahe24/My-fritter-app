@@ -24,10 +24,16 @@
     object-fit: cover;
   }
 
-  &__edit-btn {
+  &__actions {
     position: absolute;
     top: 12px;
     right: 12px;
+    display: flex;
+    gap: 8px;
+  }
+
+  &__edit-btn,
+  &__delete-btn {
     background: rgba(255, 255, 255, 0.9);
     border: none;
     border-radius: 50%;
@@ -48,6 +54,16 @@
     .material-icons {
       font-size: 20px;
       color: #333;
+    }
+  }
+
+  &__delete-btn {
+    &:hover {
+      background: rgba(220, 53, 69, 0.1);
+      
+      .material-icons {
+        color: #dc3545;
+      }
     }
   }
 

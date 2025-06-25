@@ -22,6 +22,8 @@ export class ProductListComponent implements OnInit {
   totalPages = 0;
   isModalOpen = false;
   selectedProduct: Product | null = null;
+  isDeleteModalOpen = false;
+  productToDelete: Product | null = null;
   isLoading = false;
   errorMessage = '';
 
@@ -37,27 +39,19 @@ export class ProductListComponent implements OnInit {
     this.products$ = this.currentPage$.pipe(
       switchMap((page) => this.productsService.getProducts(page, this.pageSize)),
       map((response: any) => {
-        console.log('Raw API Response:', response);
-        const fetchedProducts = response.content || [];
-        console.log('Products to Render:', fetchedProducts);
 
-        this.currentPage = response.page + 1; // Convert to 1-based for UI
+        const fetchedProducts = response.content || [];
+        this.currentPage = response.page + 1; 
         this.totalPages = response.totalPages;
         this.hasMoreProducts = response.page < response.totalPages - 1;
 
         return fetchedProducts.map((product: Product, index: number) => {
-          console.log('Product from backend:', product);
-          console.log('Backend imageId:', product.imageId);
-          
-          // Construct image URL using imageId and the correct endpoint
           let finalImageUrl: string;
           if (product.imageId && product.imageId.trim() !== '') {
             finalImageUrl = `${environment.imageEndpoint}/${product.imageId}`;
           } else {
             finalImageUrl = this.fallbackImages[index % this.fallbackImages.length];
           }
-          
-          console.log('Final imageUrl to display:', finalImageUrl);
           
           return {
             ...product,
@@ -70,12 +64,17 @@ export class ProductListComponent implements OnInit {
 
   onPageChange(page: number): void {
     if (page === this.currentPage) return;
-    this.currentPage$.next(page - 1); // Convert to 0-based for API
+    this.currentPage$.next(page - 1); 
   }
 
   onEditProduct(product: Product): void {
     this.selectedProduct = product;
     this.isModalOpen = true;
+  }
+
+  onDeleteProduct(product: Product): void {
+    this.productToDelete = product;
+    this.isDeleteModalOpen = true;
   }
 
   onCloseModal(): void {
@@ -84,46 +83,53 @@ export class ProductListComponent implements OnInit {
     this.errorMessage = '';
   }
 
+  onCloseDeleteModal(): void {
+    this.isDeleteModalOpen = false;
+    this.productToDelete = null;
+    this.errorMessage = '';
+  }
+
+  onConfirmDelete(): void {
+    if (!this.productToDelete) {
+      return;
+    }
+    
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    this.productsService.deleteProduct(this.productToDelete.id).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.onCloseDeleteModal();
+        this.productUpdated.emit();
+        this.currentPage$.next(this.currentPage$.value);
+        
+      },
+      error: (err) => {
+        console.error('Error deleting product:', err);
+        this.isLoading = false;
+        this.errorMessage = 'Error al eliminar el producto. Por favor, intente de nuevo.';
+      }
+    });
+  }
+
   onUpdateProduct(event: {id: string, data: UpdateProductDto, imageFile?: File}): void {
     this.isLoading = true;
     this.errorMessage = '';
 
-    console.log('Updating product with ID:', event.id, 'Data:', event.data, 'Has file:', !!event.imageFile);
-
-    if (event.imageFile) {
+    this.productsService.updateProductWithFile(event.id, event.data, event.imageFile).subscribe({
+      next: (response) => {
       
-      this.productsService.updateProductWithFile(event.id, event.data, event.imageFile).subscribe({
-        next: (response) => {
-          console.log('Product updated successfully with file:', response);
-          this.isLoading = false;
-          this.onCloseModal();
-          this.productUpdated.emit();
-          
-          this.currentPage$.next(this.currentPage$.value);
-        },
-        error: (err) => {
-          console.error('Error updating product with file:', err);
-          this.isLoading = false;
-          this.errorMessage = 'Error al actualizar el producto. Por favor, intente de nuevo.';
-        }
-      });
-    } else {
-     
-      this.productsService.updateProduct(event.id, event.data).subscribe({
-        next: (response) => {
-          console.log('Product updated successfully:', response);
-          this.isLoading = false;
-          this.onCloseModal();
-          this.productUpdated.emit();
-         
-          this.currentPage$.next(this.currentPage$.value);
-        },
-        error: (err) => {
-          console.error('Error updating product:', err);
-          this.isLoading = false;
-          this.errorMessage = 'Error al actualizar el producto. Por favor, intente de nuevo.';
-        }
-      });
-    }
+        this.isLoading = false;
+        this.onCloseModal();
+        this.productUpdated.emit();
+        this.currentPage$.next(this.currentPage$.value);
+      },
+      error: (err) => {
+        console.error('Error updating product:', err);
+        this.isLoading = false;
+        this.errorMessage = 'Error al actualizar el producto. Por favor, intente de nuevo.';
+      }
+    });
   }
 } 

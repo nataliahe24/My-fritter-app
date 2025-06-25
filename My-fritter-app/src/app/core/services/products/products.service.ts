@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Product, CreateProductDto, UpdateProductDto } from '../../models/product.model';
 
@@ -44,7 +44,6 @@ export class ProductsService {
       .pipe(catchError(this.handleError));
   }
 
-  // GET - Get a single product by ID
   getProductById(id: string): Observable<Product> {
     return this.http.get<Product>(`${this.API_URL}/${id}`)
       .pipe(catchError(this.handleError));
@@ -56,18 +55,15 @@ export class ProductsService {
   }
 
   updateProductWithFile(id: string, productData: UpdateProductDto, imageFile?: File): Observable<Product> {
+    // Always use FormData for consistency with backend expectations
     const formData = new FormData();
     
-    if (productData.name) {
-      formData.append('name', productData.name);
-    }
-    if (productData.description) {
-      formData.append('description', productData.description);
-    }
-    if (productData.price !== undefined) {
-      formData.append('price', productData.price.toString());
-    }
+    // Always send all fields, even if they haven't changed
+    formData.append('name', productData.name || '');
+    formData.append('description', productData.description || '');
+    formData.append('price', (productData.price || 0).toString());
     
+    // Only append image if provided
     if (imageFile) {
       formData.append('image', imageFile);
     }
@@ -77,8 +73,13 @@ export class ProductsService {
   }
 
   deleteProduct(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.API_URL}/${id}`)
-      .pipe(catchError(this.handleError));
+    // Use DELETE with query parameter: DELETE /api/v1/product?id={id}
+    const params = new HttpParams().set('id', id);
+    return this.http.delete(`${this.API_URL}`, { params, responseType: 'text' })
+      .pipe(
+        map(() => void 0), // Convert empty response to void
+        catchError(this.handleError)
+      );
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {

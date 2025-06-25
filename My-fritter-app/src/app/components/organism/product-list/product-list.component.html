@@ -7,7 +7,9 @@
       [price]="product.price"
       [imageUrl]="product.imageUrl"
       [showEditButton]="isAdmin"
+      [showDeleteButton]="isAdmin"
       (editProduct)="onEditProduct(product)"
+      (deleteProduct)="onDeleteProduct(product)"
     ></app-product-card>
   </div>
 
@@ -50,4 +52,13 @@
     (closeModal)="onCloseModal()"
     (updateProduct)="onUpdateProduct($event)"
   ></app-product-update-modal>
+
+  <!-- Delete Product Modal -->
+  <app-delete-product-modal
+    [product]="productToDelete"
+    [isOpen]="isDeleteModalOpen"
+    [isLoading]="isLoading"
+    (closeModal)="onCloseDeleteModal()"
+    (confirmDelete)="onConfirmDelete()"
+  ></app-delete-product-modal>
 </div>

@@ -7,13 +7,15 @@ import { AtomsModule } from '../atoms/atoms.module';
 import { RouterModule } from '@angular/router';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductUpdateModalComponent } from './product-update-modal/product-update-modal.component';
+import { DeleteProductModalComponent } from './delete-product-modal/delete-product-modal.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     SidebarComponent,
     ProductCardComponent,
-    ProductUpdateModalComponent
+    ProductUpdateModalComponent,
+    DeleteProductModalComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,8 @@ import { ProductUpdateModalComponent } from './product-update-modal/product-upda
     HeaderComponent,
     SidebarComponent,
     ProductCardComponent,
-    ProductUpdateModalComponent
+    ProductUpdateModalComponent,
+    DeleteProductModalComponent
   ]
 })
 export class MoleculesModule { } 
