@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { catchError, map } from "rxjs/operators";
 import { LoginDto, LoginResponse } from '../../models/login.model';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
@@ -23,6 +23,10 @@ export class LoginService {
   login(credentials: LoginDto): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.loginUrl, credentials)
       .pipe(
+        map(response => {
+          this.notificationService.success('Inicio de sesión exitoso');
+          return response;
+        }),
         catchError(this.handleError.bind(this))
       );
   }

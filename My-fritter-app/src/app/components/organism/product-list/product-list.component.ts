@@ -25,7 +25,6 @@ export class ProductListComponent implements OnInit {
   isDeleteModalOpen = false;
   productToDelete: Product | null = null;
   isLoading = false;
-  errorMessage = '';
 
   private readonly fallbackImages: string[] = [
     'assets/images/Bunuelos.jpg',
@@ -80,13 +79,11 @@ export class ProductListComponent implements OnInit {
   onCloseModal(): void {
     this.isModalOpen = false;
     this.selectedProduct = null;
-    this.errorMessage = '';
   }
 
   onCloseDeleteModal(): void {
     this.isDeleteModalOpen = false;
     this.productToDelete = null;
-    this.errorMessage = '';
   }
 
   onConfirmDelete(): void {
@@ -95,7 +92,6 @@ export class ProductListComponent implements OnInit {
     }
     
     this.isLoading = true;
-    this.errorMessage = '';
 
     this.productsService.deleteProduct(this.productToDelete.id).subscribe({
       next: () => {
@@ -103,32 +99,19 @@ export class ProductListComponent implements OnInit {
         this.onCloseDeleteModal();
         this.productUpdated.emit();
         this.currentPage$.next(this.currentPage$.value);
-        
-      },
-      error: (err) => {
-        console.error('Error deleting product:', err);
-        this.isLoading = false;
-        this.errorMessage = 'Error al eliminar el producto. Por favor, intente de nuevo.';
       }
     });
   }
 
   onUpdateProduct(event: {id: string, data: UpdateProductDto, imageFile?: File}): void {
     this.isLoading = true;
-    this.errorMessage = '';
 
     this.productsService.updateProductWithFile(event.id, event.data, event.imageFile).subscribe({
       next: (response) => {
-      
         this.isLoading = false;
         this.onCloseModal();
         this.productUpdated.emit();
         this.currentPage$.next(this.currentPage$.value);
-      },
-      error: (err) => {
-        console.error('Error updating product:', err);
-        this.isLoading = false;
-        this.errorMessage = 'Error al actualizar el producto. Por favor, intente de nuevo.';
       }
     });
   }

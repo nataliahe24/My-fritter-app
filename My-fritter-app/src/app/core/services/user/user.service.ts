@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { createUserDto, User } from '../../models/user.model';
 import { NotificationService } from '../notifications/notification.service';
@@ -20,7 +20,13 @@ export class UsersService {
 
   createUser(userData: createUserDto): Observable<User> {
     return this.http.post<User>(`${this.API_URL}`, userData)
-      .pipe(catchError(this.handleError.bind(this)));
+      .pipe(
+        map(response => {
+          this.notificationService.success(`Usuario '${userData.firstName}' creado exitosamente`);
+          return response;
+        }),
+        catchError(this.handleError.bind(this))
+      );
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {

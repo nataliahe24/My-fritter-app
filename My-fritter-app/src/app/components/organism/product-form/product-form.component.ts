@@ -11,8 +11,6 @@ import { CreateProductDto } from 'src/app/core/models/product.model';
 export class ProductFormComponent implements OnInit {
   productForm!: FormGroup;
   isLoading = false;
-  successMessage = '';
-  errorMessage = '';
   selectedImage: File | null = null;
   imagePreview: string | null = null;
 
@@ -34,18 +32,19 @@ export class ProductFormComponent implements OnInit {
     if (file) {
       // Validar tipo de archivo
       if (!file.type.startsWith('image/')) {
-        this.errorMessage = 'Por favor selecciona un archivo de imagen válido.';
+        // Use notification service for this validation error
+        console.error('Por favor selecciona un archivo de imagen válido.');
         return;
       }
 
       // Validar tamaño (máximo 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        this.errorMessage = 'La imagen debe ser menor a 5MB.';
+        // Use notification service for this validation error
+        console.error('La imagen debe ser menor a 5MB.');
         return;
       }
 
       this.selectedImage = file;
-      this.errorMessage = '';
 
       // Crear preview de la imagen
       const reader = new FileReader();
@@ -66,8 +65,6 @@ export class ProductFormComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    this.successMessage = '';
-    this.errorMessage = '';
     
     const formValue = this.productForm.value;
     const productData: CreateProductDto = {
@@ -80,15 +77,9 @@ export class ProductFormComponent implements OnInit {
     this.productsService.createProduct(productData, this.selectedImage || undefined).subscribe({
       next: () => {
         this.isLoading = false;
-        this.successMessage = `Producto '${formValue.name}' creado exitosamente.`;
         this.productForm.reset();
         this.selectedImage = null;
         this.imagePreview = null;
-      },
-      error: (err) => {
-        this.isLoading = false;
-        this.errorMessage = 'Error al crear el producto. Intente de nuevo.';
-        console.error(err);
       }
     });
   }

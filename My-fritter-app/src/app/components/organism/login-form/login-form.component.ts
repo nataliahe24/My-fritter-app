@@ -11,7 +11,6 @@ import { LoginService } from '../../../core/services/login/login.service';
 export class LoginFormComponent {
   loginForm: FormGroup;
   isLoading = false;
-  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
@@ -27,7 +26,6 @@ export class LoginFormComponent {
   onSubmit(): void {
     if (this.loginForm.valid) {
       this.isLoading = true;
-      this.errorMessage = '';
       
       const credentials = {
         email: this.loginForm.get('email')?.value,
@@ -46,14 +44,10 @@ export class LoginFormComponent {
             } else if (this.loginService.isBuyer(response)) {
               this.router.navigate(['/buyer']);
             } else {
-              this.errorMessage = 'Rol de usuario no reconocido.';
+              // Error will be handled by service notification
+              console.error('Rol de usuario no reconocido.');
             }
           }
-        },
-        error: (error) => {
-          this.isLoading = false;
-          this.loginForm.reset();
-          this.errorMessage = 'Credenciales inválidas. Por favor intente de nuevo.';
         }
       });
     } else {

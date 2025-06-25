@@ -29,13 +29,25 @@ export class ProductsService {
     }
 
     return this.http.post<Product>(this.API_URL, formData)
-      .pipe(catchError(this.handleError));
+      .pipe(
+        map(response => {
+          this.notificationService.success(`Producto '${productData.name}' creado exitosamente`);
+          return response;
+        }),
+        catchError(this.handleError.bind(this))
+      );
   }
 
   
   createProductLegacy(productData: CreateProductDto): Observable<Product> {
     return this.http.post<Product>(this.API_URL, productData)
-      .pipe(catchError(this.handleError));
+      .pipe(
+        map(response => {
+          this.notificationService.success(`Producto '${productData.name}' creado exitosamente`);
+          return response;
+        }),
+        catchError(this.handleError.bind(this))
+      );
   }
 
 
@@ -45,17 +57,23 @@ export class ProductsService {
       .set('size', size.toString());
 
     return this.http.get<any>(this.API_URL, { params })
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError.bind(this)));
   }
 
   getProductById(id: string): Observable<Product> {
     return this.http.get<Product>(`${this.API_URL}/${id}`)
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError.bind(this)));
   }
 
   updateProduct(id: string, productData: UpdateProductDto): Observable<Product> {
     return this.http.put<Product>(`${this.API_URL}/${id}`, productData)
-      .pipe(catchError(this.handleError));
+      .pipe(
+        map(response => {
+          this.notificationService.success(`Producto '${productData.name}' actualizado exitosamente`);
+          return response;
+        }),
+        catchError(this.handleError.bind(this))
+      );
   }
 
   updateProductWithFile(id: string, productData: UpdateProductDto, imageFile?: File): Observable<Product> {
@@ -73,7 +91,13 @@ export class ProductsService {
     }
 
     return this.http.put<Product>(`${this.API_URL}/${id}`, formData)
-      .pipe(catchError(this.handleError));
+      .pipe(
+        map(response => {
+          this.notificationService.success(`Producto '${productData.name}' actualizado exitosamente`);
+          return response;
+        }),
+        catchError(this.handleError.bind(this))
+      );
   }
 
   deleteProduct(id: string): Observable<void> {
@@ -81,8 +105,11 @@ export class ProductsService {
     const params = new HttpParams().set('id', id);
     return this.http.delete(`${this.API_URL}`, { params, responseType: 'text' })
       .pipe(
-        map(() => void 0), 
-        catchError(this.handleError)
+        map(() => {
+          this.notificationService.success('Producto eliminado exitosamente');
+          return void 0;
+        }), 
+        catchError(this.handleError.bind(this))
       );
   }
 

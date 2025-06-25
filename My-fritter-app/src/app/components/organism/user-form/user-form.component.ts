@@ -41,8 +41,6 @@ export class UserFormComponent implements OnInit {
   };
 
   isLoading = false;
-  successMessage = '';
-  errorMessage = '';
   icon = 'lock';
   showPassword = false;
 
@@ -88,8 +86,6 @@ export class UserFormComponent implements OnInit {
     }
 
     this.isLoading = true;
-    this.successMessage = '';
-    this.errorMessage = '';
 
     const formValue = this.userForm.value;
 
@@ -104,15 +100,8 @@ export class UserFormComponent implements OnInit {
     this.usersService.createUser(userData).subscribe({
       next: () => {
         this.isLoading = false;
-        this.successMessage = `Usuario '${this.userForm.value.firstName}' creado exitosamente como ${this.userType}.`;
         this.userForm.reset();
-      },
-      error: (err) => {
-        this.isLoading = false;
-        this.errorMessage =
-          'Error al crear el usuario. Por favor, intente de nuevo.';
-        console.error(err);
-      },
+      }
     });
   }
 

@@ -16,7 +16,6 @@ export class ProductUpdateModalComponent implements OnInit, OnChanges {
   @Output() updateProduct = new EventEmitter<{id: string, data: UpdateProductDto, imageFile?: File}>();
 
   updateForm!: FormGroup;
-  errorMessage = '';
   selectedImage: File | null = null;
   imagePreview: string | null = null;
 
@@ -50,18 +49,19 @@ export class ProductUpdateModalComponent implements OnInit, OnChanges {
     if (file) {
       // Validar tipo de archivo
       if (!file.type.startsWith('image/')) {
-        this.errorMessage = 'Por favor selecciona un archivo de imagen válido.';
+        // Use notification service for this validation error
+        console.error('Por favor selecciona un archivo de imagen válido.');
         return;
       }
 
       // Validar tamaño (máximo 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        this.errorMessage = 'La imagen debe ser menor a 5MB.';
+        // Use notification service for this validation error
+        console.error('La imagen debe ser menor a 5MB.');
         return;
       }
 
       this.selectedImage = file;
-      this.errorMessage = '';
 
       // Crear preview de la imagen
       const reader = new FileReader();
@@ -81,8 +81,6 @@ export class ProductUpdateModalComponent implements OnInit, OnChanges {
     if (this.updateForm.invalid || !this.product) {
       return;
     }
-
-    this.errorMessage = '';
 
     const formValue = this.updateForm.value;
     const updateData: UpdateProductDto = {
@@ -107,7 +105,6 @@ export class ProductUpdateModalComponent implements OnInit, OnChanges {
   onClose(): void {
     this.closeModal.emit();
     this.updateForm.reset();
-    this.errorMessage = '';
     this.selectedImage = null;
     this.imagePreview = null;
   }
