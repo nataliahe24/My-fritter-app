@@ -13,7 +13,7 @@ export class ProductsService {
 
   constructor(private readonly http: HttpClient) {}
 
-  // POST - Create a new product with file upload
+
   createProduct(productData: CreateProductDto, imageFile?: File): Observable<Product> {
     const formData = new FormData();
     formData.append('name', productData.name);
@@ -28,13 +28,13 @@ export class ProductsService {
       .pipe(catchError(this.handleError));
   }
 
-  // POST - Create a new product (legacy method for backward compatibility)
+  
   createProductLegacy(productData: CreateProductDto): Observable<Product> {
     return this.http.post<Product>(this.API_URL, productData)
       .pipe(catchError(this.handleError));
   }
 
-  // GET - Get all products with pagination
+
   getProducts(page: number, size: number): Observable<any> {
     const params = new HttpParams()
       .set('page', page.toString())
@@ -55,15 +55,15 @@ export class ProductsService {
   }
 
   updateProductWithFile(id: string, productData: UpdateProductDto, imageFile?: File): Observable<Product> {
-    // Always use FormData for consistency with backend expectations
+
     const formData = new FormData();
     
-    // Always send all fields, even if they haven't changed
+   
     formData.append('name', productData.name || '');
     formData.append('description', productData.description || '');
     formData.append('price', (productData.price || 0).toString());
     
-    // Only append image if provided
+  
     if (imageFile) {
       formData.append('image', imageFile);
     }
@@ -73,11 +73,11 @@ export class ProductsService {
   }
 
   deleteProduct(id: string): Observable<void> {
-    // Use DELETE with query parameter: DELETE /api/v1/product?id={id}
+   
     const params = new HttpParams().set('id', id);
     return this.http.delete(`${this.API_URL}`, { params, responseType: 'text' })
       .pipe(
-        map(() => void 0), // Convert empty response to void
+        map(() => void 0), 
         catchError(this.handleError)
       );
   }
