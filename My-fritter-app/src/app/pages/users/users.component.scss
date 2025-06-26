@@ -1,0 +1,168 @@
+.users-page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  h1 {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .users-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .users-header {
+    background: linear-gradient(135deg, #e73a3a 0%, #c5b454 100%);
+    color: white;
+    padding: 1.5rem;
+    text-align: center;
+
+    h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
+  }
+
+  .users-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+
+    th {
+      background: #f8f9fa;
+      color: #495057;
+      font-weight: 600;
+      padding: 1rem 0.75rem;
+      text-align: left;
+      border-bottom: 2px solid #dee2e6;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      padding: 1rem 0.75rem;
+      border-bottom: 1px solid #e9ecef;
+      color: #495057;
+      vertical-align: middle;
+    }
+
+    tr:hover {
+      background: #f8f9fa;
+      transition: background-color 0.2s ease;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+  }
+
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    color: #6c757d;
+    font-size: 1.1rem;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #6c757d;
+
+    .empty-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    h3 {
+      margin-bottom: 0.5rem;
+      color: #495057;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+  }
+
+  .role-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    &.admin {
+      background: #dc3545;
+      color: white;
+    }
+
+    &.user {
+      background: #28a745;
+      color: white;
+    }
+
+    &.moderator {
+      background: #ffc107;
+      color: #212529;
+    }
+  }
+
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e73a3a 0%, #c5b454 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-right: 0.75rem;
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+  }
+
+  .user-name {
+    font-weight: 600;
+    color: #495057;
+  }
+
+  .user-email {
+    color: #6c757d;
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+
+    .users-table {
+      font-size: 0.8rem;
+
+      th, td {
+        padding: 0.75rem 0.5rem;
+      }
+    }
+
+    .users-header h2 {
+      font-size: 1.25rem;
+    }
+  }
+}

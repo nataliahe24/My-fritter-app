@@ -12,6 +12,7 @@ import { RegisterComponent } from './register/register.component';
 import { BuyerComponent } from './buyer/buyer.component';
 import { ProductsPageComponent } from './products-page/products-page.component';
 import { CreateProductComponent } from './create-product/create-product.component';
+import { UsersComponent } from './users/users.component';
 
 
 const routes: Routes = [
@@ -46,6 +47,10 @@ const routes: Routes = [
         {
           path: 'create-product',
           component: CreateProductComponent
+        },
+        {
+          path: 'users',
+          component: UsersComponent
         }
       ]
     }
@@ -59,7 +64,8 @@ const routes: Routes = [
     RegisterComponent,
     BuyerComponent,
     ProductsPageComponent,
-    CreateProductComponent
+    CreateProductComponent,
+    UsersComponent
   ],
   imports: [
     CommonModule,
@@ -76,7 +82,8 @@ const routes: Routes = [
     BuyerComponent,
     RegisterComponent,
     ProductsPageComponent,
-    CreateProductComponent
+    CreateProductComponent,
+    UsersComponent
   ]
 })
 export class PagesModule { } 

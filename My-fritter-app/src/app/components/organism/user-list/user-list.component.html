@@ -1,0 +1,25 @@
+<div *ngIf="loading">Cargando usuarios...</div>
+<table *ngIf="!loading">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Documento</th>
+      <th>Teléfono</th>
+      <th>Fecha Nacimiento</th>
+      <th>Email</th>
+      <th>Rol</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.firstName }}</td>
+      <td>{{ user.lastName }}</td>
+      <td>{{ user.identityDocument }}</td>
+      <td>{{ user.phoneNumber }}</td>
+      <td>{{ user.birthDate }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.roleName }}</td>
+    </tr>
+  </tbody>
+</table>

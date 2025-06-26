@@ -12,7 +12,7 @@ export class MainTemplateComponent {
     { label: 'Productos', icon: 'inventory_2', route: '/admin' },
     { label: 'Crear producto', icon: 'add', route: '/create-product' },
     { label: 'Reportes', icon: 'analytics', route: '/admin/reports' },
-    { label: 'Usuarios', icon: 'people', route: '/admin/users' },
+    { label: 'Usuarios', icon: 'people', route: '/users' },
   ];
 
   toggleSidebar(): void {

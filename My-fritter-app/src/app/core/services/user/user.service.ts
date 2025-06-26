@@ -40,6 +40,13 @@ export class UsersService {
       );
   }
 
+  getUsers(): Observable<UserResponse[]> {
+    return this.http.get<UserResponse[]>(`${this.API_URL}`)
+      .pipe(
+        catchError(this.handleError.bind(this))
+      );
+  }
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'Ha ocurrido un error';
     
