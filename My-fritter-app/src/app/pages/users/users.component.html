@@ -47,7 +47,7 @@
             <td>{{ user.email }}</td>
             <td>
               <span class="role-badge" [ngClass]="user.roleName.toLowerCase()">
-                {{ user.roleName }}
+                {{ getRoleDisplayName(user.roleName) }}
               </span>
             </td>
           </tr>

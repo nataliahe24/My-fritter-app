@@ -11,7 +11,6 @@ export class MainTemplateComponent {
   navItems = [
     { label: 'Productos', icon: 'inventory_2', route: '/admin' },
     { label: 'Crear producto', icon: 'add', route: '/create-product' },
-    { label: 'Reportes', icon: 'analytics', route: '/admin/reports' },
     { label: 'Usuarios', icon: 'people', route: '/users' },
   ];
 

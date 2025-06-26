@@ -28,4 +28,17 @@ export class UsersComponent implements OnInit {
       }
     });
   }
+
+  getRoleDisplayName(roleName: string): string {
+    switch (roleName.toLowerCase()) {
+      case 'buyer':
+        return 'Cliente';
+      case 'admin':
+        return 'Administrador';
+      case 'moderator':
+        return 'Moderador';
+      default:
+        return roleName; // Mantener el nombre original si no coincide
+    }
+  }
 } 

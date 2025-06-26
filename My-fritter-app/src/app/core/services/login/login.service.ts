@@ -49,12 +49,13 @@ export class LoginService {
   logout(): void {
     this.currentUser = null;
     localStorage.removeItem('currentUser');
+    this.notificationService.success('Sesión cerrada exitosamente. ¡Hasta pronto!');
     this.router.navigate(['/login']);
   }
 
   private getRoleName(response: LoginResponse): string {
     if (typeof response.role === 'string') {
-      // Parse Java RoleEntity string format: "RoleEntity(id=1, name=ADMIN, description=Administrador del sistema)"
+      
       const roleString = response.role as string;
       const nameMatch = roleString.match(/name=([^,]+)/);
       if (nameMatch) {
