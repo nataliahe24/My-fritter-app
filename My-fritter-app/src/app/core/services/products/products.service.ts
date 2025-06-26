@@ -116,7 +116,9 @@ export class ProductsService {
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'Ha ocurrido un error';
     
-    if (error.error instanceof ErrorEvent) {
+    if (error.status === 0) {
+      errorMessage = 'La imagen excede el límite de 5MB. Por favor selecciona una imagen más pequeña.';
+    } else if (error.error instanceof ErrorEvent) {
       errorMessage = 'Error de conexión. Por favor, intente nuevamente.';
     } else {
       switch (error.status) {

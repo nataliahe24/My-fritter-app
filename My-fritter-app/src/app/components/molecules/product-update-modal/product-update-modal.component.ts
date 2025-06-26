@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChange
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Product, UpdateProductDto } from 'src/app/core/models/product.model';
 import { ProductsService } from 'src/app/core/services/products/products.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-update-modal',
@@ -47,23 +48,8 @@ export class ProductUpdateModalComponent implements OnInit, OnChanges {
   onImageSelect(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-      // Validar tipo de archivo
-      if (!file.type.startsWith('image/')) {
-        // Use notification service for this validation error
-        console.error('Por favor selecciona un archivo de imagen válido.');
-        return;
-      }
-
-      // Validar tamaño (máximo 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        // Use notification service for this validation error
-        console.error('La imagen debe ser menor a 5MB.');
-        return;
-      }
-
       this.selectedImage = file;
 
-      // Crear preview de la imagen
       const reader = new FileReader();
       reader.onload = (e) => {
         this.imagePreview = e.target?.result as string;
@@ -88,12 +74,6 @@ export class ProductUpdateModalComponent implements OnInit, OnChanges {
       description: formValue.description,
       price: formValue.price
     };
-
-    console.log('Sending update request:', {
-      id: this.product.id,
-      data: updateData,
-      hasNewImage: !!this.selectedImage
-    });
 
     this.updateProduct.emit({
       id: this.product.id,
@@ -127,5 +107,6 @@ export class ProductUpdateModalComponent implements OnInit, OnChanges {
       return 'El precio debe ser mayor a 0.';
     }
     return '';
+    
   }
 } 
