@@ -1,0 +1,130 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2 class="modal-title">Actualizar Producto</h2>
+      <button 
+        type="button" 
+        class="modal-close" 
+        (click)="onClose()"
+        aria-label="Cerrar modal"
+      >
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+
+    <form [formGroup]="updateForm" (ngSubmit)="onSubmit()" class="modal-form">
+      <div class="form-field">
+        <app-input
+          label="Nombre"
+          formControlName="name"
+          placeholder="Nombre del producto"
+          [required]="true"
+          [ngClass]="updateForm.get('name')?.touched && updateForm.get('name')?.invalid ? 'input-error' : ''"
+        ></app-input>
+        <span *ngIf="updateForm.get('name')?.touched && updateForm.get('name')?.invalid" class="error-message">
+          {{ getErrorMessage('name') }}
+        </span>
+      </div>
+
+      <div class="form-field">
+        <app-input
+          label="Descripción"
+          formControlName="description"
+          placeholder="Descripción del producto"
+          [required]="true"
+          [ngClass]="updateForm.get('description')?.touched && updateForm.get('description')?.invalid ? 'input-error' : ''"
+        ></app-input>
+        <span *ngIf="updateForm.get('description')?.touched && updateForm.get('description')?.invalid" class="error-message">
+          {{ getErrorMessage('description') }}
+        </span>
+      </div>
+
+      <div class="form-field">
+        <app-input
+          label="Precio"
+          formControlName="price"
+          placeholder="Precio"
+          type="number"
+          [required]="true"
+          [ngClass]="updateForm.get('price')?.touched && updateForm.get('price')?.invalid ? 'input-error' : ''"
+        ></app-input>
+        <span *ngIf="updateForm.get('price')?.touched && updateForm.get('price')?.invalid" class="error-message">
+          {{ getErrorMessage('price') }}
+        </span>
+      </div>
+
+      <!-- Image Upload Field -->
+      <div class="form-field">
+        <label class="form-label">
+          Imagen del Producto
+          <span class="required" aria-hidden="true">*</span>
+        </label>
+        
+        <div class="image-upload-container">
+          <div class="image-preview" *ngIf="imagePreview">
+            <img [src]="imagePreview" alt="Preview" class="preview-image" />
+            <button 
+              type="button" 
+              class="remove-image-btn"
+              (click)="removeImage()"
+              aria-label="Remover imagen"
+            >
+              <span class="material-icons">close</span>
+            </button>
+          </div>
+          
+          <div class="upload-area" *ngIf="!imagePreview">
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onImageSelect($event)"
+              class="file-input"
+              id="imageUpload"
+            />
+            <label for="imageUpload" class="upload-label">
+              <span class="material-icons">add_photo_alternate</span>
+              <span>Seleccionar imagen</span>
+            </label>
+          </div>
+          
+          <div class="upload-area" *ngIf="imagePreview">
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onImageSelect($event)"
+              class="file-input"
+              id="imageUploadChange"
+            />
+            <label for="imageUploadChange" class="upload-label">
+              <span class="material-icons">edit</span>
+              <span>Cambiar imagen</span>
+            </label>
+          </div>
+        </div>
+        
+        <p class="upload-hint">
+          Formatos permitidos: JPG, PNG, GIF. Tamaño máximo: 5MB
+        </p>
+      </div>
+
+      <div class="modal-actions">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="onClose()"
+          [disabled]="isLoading"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="updateForm.invalid || isLoading"
+        >
+          <span *ngIf="!isLoading">Actualizar</span>
+          <span *ngIf="isLoading">Actualizando...</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div> 

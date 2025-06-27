@@ -5,13 +5,17 @@ import { LogoComponent } from './logo/logo.component';
 import { PasswordInputComponent } from './password-input/password-input.component';
 import { LogoutButtonComponent } from './logout-button/logout-button.component';
 import { InputComponent } from './input/input.component';
+import { NotificationComponent } from './notification/notification.component';
+import { NotificationContainerComponent } from './notification-container/notification-container.component';
 
 @NgModule({
   declarations: [
     LogoComponent,
     PasswordInputComponent,
     LogoutButtonComponent,
-    InputComponent
+    InputComponent,
+    NotificationComponent,
+    NotificationContainerComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +25,9 @@ import { InputComponent } from './input/input.component';
     LogoComponent,
     PasswordInputComponent,
     LogoutButtonComponent,
-    InputComponent
+    InputComponent,
+    NotificationComponent,
+    NotificationContainerComponent
   ]
 })
 export class AtomsModule { } 

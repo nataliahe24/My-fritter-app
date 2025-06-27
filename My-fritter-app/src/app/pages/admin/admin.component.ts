@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AdminComponent {
   
+  onProductUpdated(): void {
+    console.log('Product updated successfully');
+  }
 } 

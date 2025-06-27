@@ -1,0 +1,50 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2 class="modal-title">Eliminar Producto</h2>
+      <button 
+        type="button" 
+        class="modal-close" 
+        (click)="onClose()"
+        aria-label="Cerrar modal"
+      >
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+
+    <div class="modal-content">
+      <div class="warning-icon">
+        <span class="material-icons">warning</span>
+      </div>
+      
+      <p class="modal-message">
+        ¿Estás seguro de que quieres eliminar el producto 
+        <strong>"{{ product?.name }}"</strong>?
+      </p>
+      
+      <p class="modal-warning">
+        Esta acción no se puede deshacer. El producto será eliminado permanentemente.
+      </p>
+    </div>
+
+    <div class="modal-actions">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="onClose()"
+        [disabled]="isLoading"
+      >
+        Cancelar
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="onConfirmDelete()"
+        [disabled]="isLoading"
+      >
+        <span *ngIf="!isLoading">Eliminar</span>
+        <span *ngIf="isLoading">Eliminando...</span>
+      </button>
+    </div>
+  </div>
+</div> 

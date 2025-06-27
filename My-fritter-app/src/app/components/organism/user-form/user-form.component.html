@@ -1,4 +1,5 @@
 <div class="user-form-container">
+  <div class="user-form-container__background"></div>
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
     <h2 class="user-form__title">
       Crear cuenta
@@ -135,12 +136,6 @@
       <span *ngIf="userForm.get('password')?.touched && userForm.get('password')?.invalid" class="error-message">
         {{ userForm.get('password')?.errors?.['required'] ? 'La contraseña es requerida' : 'La contraseña debe tener al menos 6 caracteres' }}
       </span>
-    </div>
-
-    <div class="user-form__feedback">
-      <div *ngIf="errorMessage" class="user-form__error-message">
-        {{ errorMessage }}
-      </div>
     </div>
 
     <button

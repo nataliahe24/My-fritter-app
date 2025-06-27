@@ -1,0 +1,20 @@
+
+@media (max-width: 768px) {
+  .wellcome-admin-page {
+    padding: 6rem 1.5rem;
+  }
+  .wellcome-admin-title {
+    font-size: 1.5rem;
+    padding: 2rem 3rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .wellcome-admin-page {
+    padding: 4rem 1rem;
+  }
+  .wellcome-admin-title {
+    font-size: 1.2rem;
+    padding: 1.5rem 1rem;
+  }
+}

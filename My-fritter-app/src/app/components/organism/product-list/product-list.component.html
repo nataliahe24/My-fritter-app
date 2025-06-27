@@ -1,0 +1,64 @@
+<div class="product-list-container">
+  <div class="product-grid" *ngIf="products$ | async as products; else loading">
+    <app-product-card 
+      *ngFor="let product of products"
+      [name]="product.name"
+      [description]="product.description"
+      [price]="product.price"
+      [imageUrl]="product.imageUrl"
+      [showEditButton]="isAdmin"
+      [showDeleteButton]="isAdmin"
+      (editProduct)="onEditProduct(product)"
+      (deleteProduct)="onDeleteProduct(product)"
+    ></app-product-card>
+  </div>
+
+  <ng-template #loading>
+    <p>Loading products...</p>
+  </ng-template>
+
+  <div class="pagination" *ngIf="totalPages > 0">
+    <button 
+      [disabled]="currentPage === 1"
+      (click)="onPageChange(currentPage - 1)"
+      class="pagination-btn"
+    >
+      <span class="material-icons">chevron_left</span>
+    </button>
+    
+    <button 
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+      [class.active]="currentPage === i + 1"
+      (click)="onPageChange(i + 1)"
+      class="pagination-btn"
+    >
+      {{ i + 1 }}
+    </button>
+    
+    <button 
+      [disabled]="currentPage === totalPages"
+      (click)="onPageChange(currentPage + 1)"
+      class="pagination-btn"
+    >
+      <span class="material-icons">chevron_right</span>
+    </button>
+  </div>
+
+  <!-- Product Update Modal -->
+  <app-product-update-modal
+    [product]="selectedProduct"
+    [isOpen]="isModalOpen"
+    [isLoading]="isLoading"
+    (closeModal)="onCloseModal()"
+    (updateProduct)="onUpdateProduct($event)"
+  ></app-product-update-modal>
+
+  <!-- Delete Product Modal -->
+  <app-delete-product-modal
+    [product]="productToDelete"
+    [isOpen]="isDeleteModalOpen"
+    [isLoading]="isLoading"
+    (closeModal)="onCloseDeleteModal()"
+    (confirmDelete)="onConfirmDelete()"
+  ></app-delete-product-modal>
+</div>

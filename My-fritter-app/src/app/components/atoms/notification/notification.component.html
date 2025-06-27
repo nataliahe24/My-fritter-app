@@ -1,0 +1,14 @@
+<div class="notification" [ngClass]="notification.type">
+  <div class="notification-content">
+    <div class="notification-icon">
+      <span *ngIf="notification.type === 'success'" class="material-icons">check_circle</span>
+      <span *ngIf="notification.type === 'error'" class="material-icons">error</span>
+      <span *ngIf="notification.type === 'warning'" class="material-icons">warning</span>
+      <span *ngIf="notification.type === 'info'" class="material-icons">info</span>
+    </div>
+    <div class="notification-message">{{ notification.message }}</div>
+  </div>
+  <button class="notification-close" (click)="onClose()">
+    <span class="material-icons">close</span>
+  </button>
+</div> 

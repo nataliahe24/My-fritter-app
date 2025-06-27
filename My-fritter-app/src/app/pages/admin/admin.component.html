@@ -1,5 +1,13 @@
 <app-main-template>
-  <div class="wellcome-admin-page">
-    <h1 class="wellcome-admin-title">Bienvenido al panel de administración</h1>
+  <div class="admin-page">
+    <div class="admin-header">
+      <h1 class="admin-title">Panel de Administración</h1>
+      <p class="admin-subtitle">Gestiona los productos de tu tienda</p>
+    </div>
+    
+    <app-product-list 
+      [isAdmin]="true"
+      (productUpdated)="onProductUpdated()"
+    ></app-product-list>
   </div>
 </app-main-template>

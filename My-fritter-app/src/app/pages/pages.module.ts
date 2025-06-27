@@ -10,6 +10,9 @@ import { AdminComponent } from './admin/admin.component';
 import { TemplatesModule } from '../components/templates/templates.module';
 import { RegisterComponent } from './register/register.component';
 import { BuyerComponent } from './buyer/buyer.component';
+import { ProductsPageComponent } from './products-page/products-page.component';
+import { CreateProductComponent } from './create-product/create-product.component';
+import { UsersComponent } from './users/users.component';
 
 
 const routes: Routes = [
@@ -17,8 +20,13 @@ const routes: Routes = [
       path: '',
       children: [
         {
-          path: '',
+          path: 'login',
           component: LoginComponent
+        },
+        {
+            path: '',
+            redirectTo: 'login',
+            pathMatch: 'full'
         },
         {
           path: 'admin',
@@ -31,6 +39,18 @@ const routes: Routes = [
         {
           path: 'register',
           component: RegisterComponent
+        },
+        { 
+          path: 'products',
+          component: ProductsPageComponent
+        },
+        {
+          path: 'create-product',
+          component: CreateProductComponent
+        },
+        {
+          path: 'users',
+          component: UsersComponent
         }
       ]
     }
@@ -42,7 +62,10 @@ const routes: Routes = [
     LoginComponent,
     AdminComponent,
     RegisterComponent,
-    BuyerComponent
+    BuyerComponent,
+    ProductsPageComponent,
+    CreateProductComponent,
+    UsersComponent
   ],
   imports: [
     CommonModule,
@@ -53,6 +76,14 @@ const routes: Routes = [
     MoleculesModule,
     AtomsModule
   ],
-  exports: []
+  exports: [
+    LoginComponent,
+    AdminComponent,
+    BuyerComponent,
+    RegisterComponent,
+    ProductsPageComponent,
+    CreateProductComponent,
+    UsersComponent
+  ]
 })
 export class PagesModule { } 

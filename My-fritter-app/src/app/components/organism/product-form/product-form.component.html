@@ -1,0 +1,111 @@
+<div class="product-form-container">
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
+    <h2 class="product-form__title">Crear producto</h2>
+
+    <div class="product-form__field">
+      <app-input
+        label="Nombre"
+        formControlName="name"
+        placeholder="Nombre del producto"
+        [required]="true"
+        [ngClass]="productForm.get('name')?.touched && productForm.get('name')?.invalid ? 'input-error' : ''"
+      ></app-input>
+      <span *ngIf="productForm.get('name')?.touched && productForm.get('name')?.invalid" class="error-message">
+        {{ getErrorMessage('name') }}
+      </span>
+    </div>
+
+    <div class="product-form__field">
+      <app-input
+        label="Descripción"
+        formControlName="description"
+        placeholder="Descripción del producto"
+        [required]="true"
+        [ngClass]="productForm.get('description')?.touched && productForm.get('description')?.invalid ? 'input-error' : ''"
+      ></app-input>
+      <span *ngIf="productForm.get('description')?.touched && productForm.get('description')?.invalid" class="error-message">
+        {{ getErrorMessage('description') }}
+      </span>
+    </div>
+
+    <div class="product-form__field">
+      <app-input
+        label="Precio"
+        formControlName="price"
+        placeholder="Precio"
+        type="number"
+        [required]="true"
+        [ngClass]="productForm.get('price')?.touched && productForm.get('price')?.invalid ? 'input-error' : ''"
+      ></app-input>
+      <span *ngIf="productForm.get('price')?.touched && productForm.get('price')?.invalid" class="error-message">
+        {{ getErrorMessage('price') }}
+      </span>
+    </div>
+
+    <!-- Image Upload Field -->
+    <div class="product-form__field">
+      <label class="form-label">
+        Imagen del Producto
+        <span class="required" aria-hidden="true">*</span>
+      </label>
+      
+      <div class="image-upload-container">
+        <div class="image-preview" *ngIf="imagePreview">
+          <img [src]="imagePreview" alt="Preview" class="preview-image" />
+          <button 
+            type="button" 
+            class="remove-image-btn"
+            (click)="removeImage()"
+            aria-label="Remover imagen"
+          >
+            <span class="material-icons">close</span>
+          </button>
+        </div>
+        
+        <div class="upload-area" *ngIf="!imagePreview">
+          <input
+            type="file"
+            accept="image/*"
+            (change)="onImageSelect($event)"
+            class="file-input"
+            id="imageUpload"
+          />
+          <label for="imageUpload" class="upload-label">
+            <span class="material-icons">add_photo_alternate</span>
+            <span>Seleccionar imagen</span>
+          </label>
+        </div>
+        
+        <div class="upload-area" *ngIf="imagePreview">
+          <input
+            type="file"
+            accept="image/*"
+            (change)="onImageSelect($event)"
+            class="file-input"
+            id="imageUploadChange"
+          />
+          <label for="imageUploadChange" class="upload-label">
+            <span class="material-icons">edit</span>
+            <span>Cambiar imagen</span>
+          </label>
+        </div>
+      </div>
+      
+      <p class="upload-hint">
+        Formatos permitidos: JPG, PNG, GIF. Tamaño máximo: 5MB
+      </p>
+    </div>
+
+    <div class="product-form__feedback">
+    </div>
+
+    <button
+      type="submit"
+      class="product-form__submit"
+      [disabled]="productForm.invalid || isLoading"
+    >
+      <span *ngIf="!isLoading">Crear</span>
+      <span *ngIf="isLoading">Creando...</span>
+    </button>
+  </form>
+</div> 

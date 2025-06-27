@@ -7,6 +7,12 @@ import { Component } from '@angular/core';
 })
 export class MainTemplateComponent {
   isSidebarCollapsed = true;
+  
+  navItems = [
+    { label: 'Productos', icon: 'inventory_2', route: '/admin' },
+    { label: 'Crear producto', icon: 'add', route: '/create-product' },
+    { label: 'Usuarios', icon: 'people', route: '/users' },
+  ];
 
   toggleSidebar(): void {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;

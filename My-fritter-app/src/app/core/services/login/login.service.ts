@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from "rxjs";
+import { catchError, map } from "rxjs/operators";
 import { LoginDto, LoginResponse } from '../../models/login.model';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { NotificationService } from '../notifications/notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,16 +16,18 @@ export class LoginService {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly notificationService: NotificationService
   ) {}
 
   login(credentials: LoginDto): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.loginUrl, credentials)
       .pipe(
-        catchError(error => {
-          console.error('Login error:', error);
-          throw error;
-        })
+        map(response => {
+          this.notificationService.success('Inicio de sesión exitoso');
+          return response;
+        }),
+        catchError(this.handleError.bind(this))
       );
   }
 
@@ -46,12 +49,13 @@ export class LoginService {
   logout(): void {
     this.currentUser = null;
     localStorage.removeItem('currentUser');
+    this.notificationService.success('Sesión cerrada exitosamente. ¡Hasta pronto!');
     this.router.navigate(['/login']);
   }
 
   private getRoleName(response: LoginResponse): string {
     if (typeof response.role === 'string') {
-      // Parse Java RoleEntity string format: "RoleEntity(id=1, name=ADMIN, description=Administrador del sistema)"
+      
       const roleString = response.role as string;
       const nameMatch = roleString.match(/name=([^,]+)/);
       if (nameMatch) {
@@ -75,5 +79,30 @@ export class LoginService {
   isBuyer(response: LoginResponse): boolean {
     const roleName = this.getRoleName(response);
     return roleName.toLowerCase() === 'buyer';
+  }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'Ha ocurrido un error';
+    
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = 'Error de conexión. Por favor, intente nuevamente.';
+    } else {
+      switch (error.status) {
+        case 403:
+          errorMessage = error.error?.message || 'No tienes permisos para realizar esta acción';
+          break;
+        case 400:
+          errorMessage = error.error?.message || 'Datos inválidos';
+          break;
+        case 500:
+          errorMessage = error.error?.message || 'Error del servidor';
+          break;
+        default:
+          errorMessage = error.error?.message || `Error ${error.status}`;
+      }
+    }
+
+    this.notificationService.error(errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 }

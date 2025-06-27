@@ -1,0 +1,58 @@
+<app-main-template>
+  <div class="users-page">
+    <h1>Gestión de Usuarios</h1>
+    
+    <div class="users-container">
+      <div class="users-header">
+        <h2>Lista de Usuarios Registrados</h2>
+      </div>
+      
+      <div *ngIf="loading" class="loading-container">
+        <p>Cargando usuarios...</p>
+      </div>
+      
+      <div *ngIf="!loading && users.length === 0" class="empty-state">
+        <div class="empty-icon"></div>
+        <h3>No hay usuarios registrados</h3>
+        <p>Aún no se han registrado usuarios en el sistema.</p>
+      </div>
+      
+      <table *ngIf="!loading && users.length > 0" class="users-table">
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>Documento</th>
+            <th>Teléfono</th>
+            <th>Fecha Nacimiento</th>
+            <th>Email</th>
+            <th>Rol</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>
+              <div class="user-info">
+                <div class="user-avatar">
+                  {{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}
+                </div>
+                <div>
+                  <div class="user-name">{{ user.firstName }} {{ user.lastName }}</div>
+                  <div class="user-email">{{ user.email }}</div>
+                </div>
+              </div>
+            </td>
+            <td>{{ user.identityDocument }}</td>
+            <td>{{ user.phoneNumber }}</td>
+            <td>{{ user.birthDate | date:'dd/MM/yyyy' }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              <span class="role-badge" [ngClass]="user.roleName.toLowerCase()">
+                {{ getRoleDisplayName(user.roleName) }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</app-main-template>
