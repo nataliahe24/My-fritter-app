@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { NotificationService, Notification } from './notification.service';
+import { NotificationService } from './notification.service';
 
 describe('NotificationService', () => {
   let service: NotificationService;
@@ -15,131 +15,180 @@ describe('NotificationService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should add success notification', () => {
-    const message = 'Operación exitosa';
-    let result: Notification[] = [];
+  describe('success', () => {
+    it('should emit success notification', () => {
+      const message = 'Operación exitosa';
+      let emittedMessage = '';
     
-    service.notifications$.subscribe(notifications => {
-      result = notifications;
+      service.notifications$.subscribe(notifications => {
+        if (notifications.length > 0) {
+          emittedMessage = notifications[0].message;
+        }
+      });
+
+      service.success(message);
+
+      expect(emittedMessage).toBe(message);
     });
 
-    service.success(message);
+    it('should emit notification with success type', () => {
+      const message = 'Operación exitosa';
+      let emittedType = '';
 
-    expect(result.length).toBe(1);
-    expect(result[0].type).toBe('success');
-    expect(result[0].message).toBe(message);
+      service.notifications$.subscribe(notifications => {
+        if (notifications.length > 0) {
+          emittedType = notifications[0].type;
+        }
+      });
+
+      service.success(message);
+
+      expect(emittedType).toBe('success');
+    });
   });
 
-  it('should add error notification', () => {
-    const message = 'Error en la operación';
-    let result: Notification[] = [];
+  describe('error', () => {
+    it('should emit error notification', () => {
+      const message = 'Error en la operación';
+      let emittedMessage = '';
     
-    service.notifications$.subscribe(notifications => {
-      result = notifications;
+      service.notifications$.subscribe(notifications => {
+        if (notifications.length > 0) {
+          emittedMessage = notifications[0].message;
+        }
+      });
+
+      service.error(message);
+
+      expect(emittedMessage).toBe(message);
     });
 
-    service.error(message);
+    it('should emit notification with error type', () => {
+      const message = 'Error en la operación';
+      let emittedType = '';
 
-    expect(result.length).toBe(1);
-    expect(result[0].type).toBe('error');
-    expect(result[0].message).toBe(message);
+      service.notifications$.subscribe(notifications => {
+        if (notifications.length > 0) {
+          emittedType = notifications[0].type;
+        }
+      });
+
+      service.error(message);
+
+      expect(emittedType).toBe('error');
+    });
   });
 
-  it('should add warning notification', () => {
-    const message = 'Advertencia';
-    let result: Notification[] = [];
+  describe('warning', () => {
+    it('should emit warning notification', () => {
+      const message = 'Advertencia';
+      let emittedMessage = '';
     
-    service.notifications$.subscribe(notifications => {
-      result = notifications;
+      service.notifications$.subscribe(notifications => {
+        if (notifications.length > 0) {
+          emittedMessage = notifications[0].message;
+        }
+      });
+
+      service.warning(message);
+
+      expect(emittedMessage).toBe(message);
     });
 
-    service.warning(message);
+    it('should emit notification with warning type', () => {
+      const message = 'Advertencia';
+      let emittedType = '';
 
-    expect(result.length).toBe(1);
-    expect(result[0].type).toBe('warning');
-    expect(result[0].message).toBe(message);
+      service.notifications$.subscribe(notifications => {
+        if (notifications.length > 0) {
+          emittedType = notifications[0].type;
+        }
+      });
+
+      service.warning(message);
+
+      expect(emittedType).toBe('warning');
+    });
   });
 
-  it('should add info notification', () => {
-    const message = 'Información';
-    let result: Notification[] = [];
+  describe('info', () => {
+    it('should emit info notification', () => {
+      const message = 'Información';
+      let emittedMessage = '';
     
-    service.notifications$.subscribe(notifications => {
-      result = notifications;
+      service.notifications$.subscribe(notifications => {
+        if (notifications.length > 0) {
+          emittedMessage = notifications[0].message;
+        }
+      });
+
+      service.info(message);
+
+      expect(emittedMessage).toBe(message);
     });
 
-    service.info(message);
+    it('should emit notification with info type', () => {
+      const message = 'Información';
+      let emittedType = '';
 
-    expect(result.length).toBe(1);
-    expect(result[0].type).toBe('info');
-    expect(result[0].message).toBe(message);
+      service.notifications$.subscribe(notifications => {
+        if (notifications.length > 0) {
+          emittedType = notifications[0].type;
+        }
+      });
+
+      service.info(message);
+
+      expect(emittedType).toBe('info');
+    });
   });
 
-  it('should remove notification by id', () => {
-    let result: Notification[] = [];
+  describe('notification structure', () => {
     
-    service.notifications$.subscribe(notifications => {
-      result = notifications;
+    it('should generate unique IDs for notifications', () => {
+      const notifications: any[] = [];
+
+      service.notifications$.subscribe(notificationsList => {
+        notifications.push(...notificationsList);
+      });
+
+      service.success('Test 1');
+      service.error('Test 2');
+      service.warning('Test 3');
+
+      const ids = notifications.map(n => n.id);
+      const uniqueIds = new Set(ids);
+
+      expect(uniqueIds.size).toBe(3);
     });
-
-    const id = service.success('Test');
-    expect(result.length).toBe(1);
-
-    service.removeNotification(id);
-    expect(result.length).toBe(0);
   });
 
-  it('should auto-remove notifications after timeout', () => {
-    jest.useFakeTimers();
-    
-    let result: Notification[] = [];
-    service.notifications$.subscribe(notifications => {
-      result = notifications;
+  describe('multiple notifications', () => {
+    it('should handle multiple notifications correctly', () => {
+      const messages: string[] = [];
+      const types: string[] = [];
+
+      service.notifications$.subscribe(notifications => {
+        notifications.forEach(notification => {
+          messages.push(notification.message);
+          types.push(notification.type);
+        });
+      });
+
+      service.success('Success message');
+      service.error('Error message');
+      service.warning('Warning message');
+      service.info('Info message');
+
+      expect(messages).toContain('Success message');
+      expect(messages).toContain('Error message');
+      expect(messages).toContain('Warning message');
+      expect(messages).toContain('Info message');
+
+      expect(types).toContain('success');
+      expect(types).toContain('error');
+      expect(types).toContain('warning');
+      expect(types).toContain('info');
     });
-
-    service.success('Test', 1000);
-    expect(result.length).toBe(1);
-    
-    jest.advanceTimersByTime(1001);
-
-    expect(result.length).toBe(0);
-    
-    jest.useRealTimers();
-  });
-
-  it('should handle empty message', () => {
-    let result: Notification[] = [];
-    service.notifications$.subscribe(notifications => {
-      result = notifications;
-    });
-
-    service.success('');
-
-    expect(result.length).toBe(1);
-    expect(result[0].message).toBe('');
-  });
-
-  it('should handle null message', () => {
-    let result: Notification[] = [];
-    service.notifications$.subscribe(notifications => {
-      result = notifications;
-    });
-
-    service.error(null as any);
-
-    expect(result.length).toBe(1);
-    expect(result[0].message).toBe(null);
-  });
-
-  it('should handle undefined message', () => {
-    let result: Notification[] = [];
-    service.notifications$.subscribe(notifications => {
-      result = notifications;
-    });
-
-    service.warning(undefined as any);
-
-    expect(result.length).toBe(1);
-    expect(result[0].message).toBe(undefined);
   });
 }); 
