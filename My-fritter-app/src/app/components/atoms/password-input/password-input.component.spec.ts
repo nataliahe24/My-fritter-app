@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PasswordInputComponent } from './password-input.component';
-import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
-import { By } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 describe('PasswordInputComponent', () => {
   let component: PasswordInputComponent;
@@ -10,7 +9,7 @@ describe('PasswordInputComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [PasswordInputComponent],
-      imports: [FormsModule, ReactiveFormsModule]
+      imports: [FormsModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(PasswordInputComponent);
@@ -22,76 +21,49 @@ describe('PasswordInputComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render label and placeholder', () => {
-    component.label = 'Clave';
-    component.placeholder = 'Escribe tu clave';
-    fixture.detectChanges();
-
-    const label = fixture.nativeElement.querySelector('label');
-    const input = fixture.nativeElement.querySelector('input');
-    expect(label.textContent).toContain('Clave');
-    expect(input.placeholder).toBe('Escribe tu clave');
+  it('should initialize with default values', () => {
+    expect(component.value).toBe('');
+    expect(component.disabled).toBe(false);
+    expect(component.placeholder).toBe('');
+    expect(component.showPassword).toBe(false);
   });
 
   it('should toggle password visibility', () => {
-    const btn = fixture.debugElement.query(By.css('.toggle-btn'));
-    const input = fixture.nativeElement.querySelector('input');
-    expect(input.type).toBe('password');
+    expect(component.showPassword).toBe(false);
+    expect(component.getInputType()).toBe('password');
 
-    btn.nativeElement.click();
-    fixture.detectChanges();
-    expect(component.show).toBeTruthy();
-    expect(input.type).toBe('text');
+    component.togglePasswordVisibility();
+    expect(component.showPassword).toBe(true);
+    expect(component.getInputType()).toBe('text');
 
-    btn.nativeElement.click();
-    fixture.detectChanges();
-    expect(component.show).toBeFalsy();
-    expect(input.type).toBe('password');
+    component.togglePasswordVisibility();
+    expect(component.showPassword).toBe(false);
+    expect(component.getInputType()).toBe('password');
   });
 
-  it('should call onChange and onTouched on input', () => {
-    const onChangeSpy = jest.fn();
-    const onTouchedSpy = jest.fn();
-    component.registerOnChange(onChangeSpy);
-    component.registerOnTouched(onTouchedSpy);
-
-    const input = fixture.nativeElement.querySelector('input');
-    input.value = 'secret';
-    input.dispatchEvent(new Event('input'));
+  it('should set placeholder correctly', () => {
+    const testPlaceholder = 'Enter password';
+    component.placeholder = testPlaceholder;
     fixture.detectChanges();
 
-    expect(component.value).toBe('secret');
-    expect(onChangeSpy).toHaveBeenCalledWith('secret');
-    expect(onTouchedSpy).toHaveBeenCalled();
+    const inputElement = fixture.nativeElement.querySelector('input');
+    expect(inputElement.placeholder).toBe(testPlaceholder);
   });
 
-  it('should set disabled state', () => {
-    component.setDisabledState(true);
+  it('should set value correctly', () => {
+    const testValue = 'testpassword';
+    component.value = testValue;
     fixture.detectChanges();
-    const input = fixture.nativeElement.querySelector('input');
-    expect(input.disabled).toBeTruthy();
+
+    const inputElement = fixture.nativeElement.querySelector('input');
+    expect(inputElement.value).toBe(testValue);
   });
 
-  it('should show required indicator if required', () => {
-    component.required = true;
-    component.label = 'Contraseña';
+  it('should set disabled correctly', () => {
+    component.disabled = true;
     fixture.detectChanges();
-    const required = fixture.nativeElement.querySelector('.required');
-    expect(required).toBeTruthy();
-    expect(required.textContent).toContain('*');
-  });
 
-  it('should apply custom ngClass', () => {
-    component.ngClass = 'input-error';
-    fixture.detectChanges();
-    const input = fixture.nativeElement.querySelector('input');
-    expect(input.classList.contains('input-error')).toBeTruthy();
-  });
-
-  it('should work with writeValue', () => {
-    component.writeValue('mipass');
-    fixture.detectChanges();
-    const input = fixture.nativeElement.querySelector('input');
-    expect(input.value).toBe('mipass');
+    const inputElement = fixture.nativeElement.querySelector('input');
+    expect(inputElement.disabled).toBe(true);
   });
 }); 

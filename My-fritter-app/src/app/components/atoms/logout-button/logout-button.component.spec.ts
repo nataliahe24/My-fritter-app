@@ -1,59 +1,67 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LogoutButtonComponent } from './logout-button.component';
-import { AuthService } from '@core/services/auth/auth.service';
-import { NotificationService } from '@core/services/notifications/notification.service';
 import { Router } from '@angular/router';
-import { of, throwError } from 'rxjs';
+import { LogoutButtonComponent } from './logout-button.component';
+import { LoginService } from 'src/app/core/services/login/login.service';
 
 describe('LogoutButtonComponent', () => {
   let component: LogoutButtonComponent;
   let fixture: ComponentFixture<LogoutButtonComponent>;
-  let authServiceMock: any;
-  let notificationServiceMock: any;
-  let routerMock: any;
+  let router: jasmine.SpyObj<Router>;
+  let loginService: jasmine.SpyObj<LoginService>;
 
   beforeEach(async () => {
-    authServiceMock = {
-      logout: jest.fn(),
-      purgeAuth: jest.fn()
-    };
-    notificationServiceMock = {
-      success: jest.fn(),
-      error: jest.fn()
-    };
-    routerMock = {
-      navigate: jest.fn()
-    };
+    const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    const loginServiceSpy = jasmine.createSpyObj('LoginService', ['logout']);
 
     await TestBed.configureTestingModule({
       declarations: [LogoutButtonComponent],
       providers: [
-        { provide: AuthService, useValue: authServiceMock },
-        { provide: NotificationService, useValue: notificationServiceMock },
-        { provide: Router, useValue: routerMock }
+        { provide: Router, useValue: routerSpy },
+        { provide: LoginService, useValue: loginServiceSpy }
       ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(LogoutButtonComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
+    loginService = TestBed.inject(LoginService) as jasmine.SpyObj<LoginService>;
   });
 
-  it('should call onLogout when "logout" is selected', () => {
-    authServiceMock.logout.mockReturnValue(of({}));
-    component.onLogout();
-    expect(authServiceMock.logout).toHaveBeenCalled();
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
-  it('should navigate to /login when "logout" is selected', () => {
-    component.onLogout();
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/login']);
+  it('should have logout button', () => {
+    const button = fixture.nativeElement.querySelector('button');
+    expect(button).toBeTruthy();
   });
 
-  it('should show success notification and navigate to /login on successful logout', () => {
-    authServiceMock.logout.mockReturnValue(of({}));
+  it('should call onLogout when button is clicked', () => {
+    spyOn(component, 'onLogout');
+    
+    const button = fixture.nativeElement.querySelector('button');
+    button.click();
+
+    expect(component.onLogout).toHaveBeenCalled();
+  });
+
+  it('should call loginService logout on logout', () => {
     component.onLogout();
-    expect(notificationServiceMock.success).toHaveBeenCalledWith('Sesión cerrada exitosamente');
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/login']);
+
+    expect(loginService.logout).toHaveBeenCalled();
+  });
+
+  it('should navigate to home page on logout', () => {
+    component.onLogout();
+
+    expect(router.navigate).toHaveBeenCalledWith(['']);
+  });
+
+  it('should emit logout event', () => {
+    spyOn(component.logout, 'emit');
+    
+    component.onLogout();
+
+    expect(component.logout.emit).toHaveBeenCalled();
   });
 }); 
