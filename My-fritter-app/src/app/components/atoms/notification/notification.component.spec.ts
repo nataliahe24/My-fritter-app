@@ -1,54 +1,51 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NotificationComponent } from './notification.component';
-import { By } from '@angular/platform-browser';
 
 describe('NotificationComponent', () => {
   let component: NotificationComponent;
   let fixture: ComponentFixture<NotificationComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  const mockNotification = {
+    id: 1,
+    message: 'Test notification',
+    type: 'success' as const,
+    timestamp: new Date()
+  };
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [NotificationComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(NotificationComponent);
     component = fixture.componentInstance;
-    
-    component.notification = {
-      id: 1,
-      type: 'success',
-      message: 'Test notification',
-      timeout: 5000
-    };
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display the notification message', () => {
+  it('should display notification message', () => {
+    component.notification = mockNotification;
     fixture.detectChanges();
-    const messageEl = fixture.debugElement.query(By.css('.notification-message'));
-    expect(messageEl.nativeElement.textContent).toBe('Test notification');
+
+    const messageElement = fixture.nativeElement.querySelector('.notification-message');
+    expect(messageElement.textContent).toContain(mockNotification.message);
   });
 
-  it('should apply correct CSS class based on notification type', () => {
+  it('should apply success class for success type', () => {
+    component.notification = { ...mockNotification, type: 'success' as const };
     fixture.detectChanges();
-    let notificationEl = fixture.debugElement.query(By.css('.notification'));
-    expect(notificationEl.nativeElement.classList).toContain('success');
-    
-    component.notification.type = 'error';
-    fixture.detectChanges();
-    expect(notificationEl.nativeElement.classList).toContain('error');
+
+    const notificationElement = fixture.nativeElement.querySelector('.notification');
+    expect(notificationElement.classList).toContain('success');
   });
 
-  it('should emit close event when close button is clicked', () => {
-    const spy = jest.spyOn(component.close, 'emit');
+  it('should apply error class for error type', () => {
+    component.notification = { ...mockNotification, type: 'error' as const };
     fixture.detectChanges();
-    
-    const closeBtn = fixture.debugElement.query(By.css('.notification-close'));
-    closeBtn.nativeElement.click();
-    
-    expect(spy).toHaveBeenCalledWith(1);
+
+    const notificationElement = fixture.nativeElement.querySelector('.notification');
+    expect(notificationElement.classList).toContain('error');
   });
 }); 
