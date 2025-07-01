@@ -38,7 +38,7 @@ export class UsersComponent implements OnInit {
       case 'moderator':
         return 'Moderador';
       default:
-        return roleName; // Mantener el nombre original si no coincide
+        return roleName; 
     }
   }
 } 
