@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from "rxjs";
+import { Observable, throwError, BehaviorSubject } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { LoginDto, LoginResponse } from '../../models/login.model';
 import { environment } from 'src/environments/environment';
@@ -13,6 +13,7 @@ import { NotificationService } from '../notifications/notification.service';
 export class LoginService {
   private readonly loginUrl = `${environment.apiUrlLogin}`;
   private currentUser: LoginResponse | null = null;
+  private userChangeSubject = new BehaviorSubject<LoginResponse | null>(null);
 
   constructor(
     private readonly http: HttpClient,
@@ -20,11 +21,17 @@ export class LoginService {
     private readonly notificationService: NotificationService
   ) {}
 
+  // Observable to listen for user changes
+  getUserChanges(): Observable<LoginResponse | null> {
+    return this.userChangeSubject.asObservable();
+  }
+
   login(credentials: LoginDto): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.loginUrl, credentials)
       .pipe(
         map(response => {
           this.notificationService.success('Inicio de sesión exitoso');
+          this.setCurrentUser(response);
           return response;
         }),
         catchError(this.handleError.bind(this))
@@ -34,6 +41,7 @@ export class LoginService {
   setCurrentUser(user: LoginResponse): void {
     this.currentUser = user;
     localStorage.setItem('currentUser', JSON.stringify(user));
+    this.userChangeSubject.next(user);
   }
 
   getCurrentUser(): LoginResponse | null {
@@ -41,6 +49,7 @@ export class LoginService {
       const stored = localStorage.getItem('currentUser');
       if (stored) {
         this.currentUser = JSON.parse(stored);
+        this.userChangeSubject.next(this.currentUser);
       }
     }
     return this.currentUser;
@@ -49,6 +58,7 @@ export class LoginService {
   logout(): void {
     this.currentUser = null;
     localStorage.removeItem('currentUser');
+    this.userChangeSubject.next(null);
     this.notificationService.success('Sesión cerrada exitosamente. ¡Hasta pronto!');
     this.router.navigate(['/login']);
   }
