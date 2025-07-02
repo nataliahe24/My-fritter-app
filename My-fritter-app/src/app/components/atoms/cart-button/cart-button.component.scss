@@ -1,0 +1,46 @@
+.cart-button {
+  position: relative;
+  background: #f1d73f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  min-width: 50px;
+  justify-content: center;
+
+  &:hover {
+    background: #9c8608;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  .cart-icon {
+    font-size: 18px;
+  }
+
+  .cart-count {
+    background: #39b629;
+    color: white;
+    border-radius: 50%;
+    min-width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    padding: 2px;
+  }
+} 

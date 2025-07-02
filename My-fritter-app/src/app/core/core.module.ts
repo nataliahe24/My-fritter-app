@@ -2,6 +2,8 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NotificationService } from './services/notifications/notification.service';
+import { OrdersService } from './services/orders/orders.service';
+import { CartService } from './services/cart/cart.service';
 
 @NgModule({
   declarations: [],
@@ -10,7 +12,9 @@ import { NotificationService } from './services/notifications/notification.servi
     HttpClientModule
   ],
   providers: [
-    NotificationService
+    NotificationService,
+    OrdersService,
+    CartService
   ],
   exports: [
     HttpClientModule

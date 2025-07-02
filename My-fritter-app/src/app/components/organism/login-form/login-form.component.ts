@@ -42,7 +42,7 @@ export class LoginFormComponent {
             if (this.loginService.isAdmin(response)) {
               this.router.navigate(['/admin']);
             } else if (this.loginService.isBuyer(response)) {
-              this.router.navigate(['/buyer']);
+              this.router.navigate(['/products']);
             } else {
               // Error will be handled by service notification
               console.error('Rol de usuario no reconocido.');

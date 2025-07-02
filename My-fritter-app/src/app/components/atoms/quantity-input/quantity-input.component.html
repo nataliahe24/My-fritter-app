@@ -1,0 +1,26 @@
+<div class="quantity-input">
+  <button 
+    type="button" 
+    class="quantity-btn decrease"
+    (click)="decrease()"
+    [disabled]="disabled || value <= min">
+    -
+  </button>
+  
+  <input 
+    type="number" 
+    [value]="value"
+    [min]="min"
+    [max]="max"
+    [disabled]="disabled"
+    (input)="onInputChange($event)"
+    class="quantity-field">
+  
+  <button 
+    type="button" 
+    class="quantity-btn increase"
+    (click)="increase()"
+    [disabled]="disabled || value >= max">
+    +
+  </button>
+</div> 

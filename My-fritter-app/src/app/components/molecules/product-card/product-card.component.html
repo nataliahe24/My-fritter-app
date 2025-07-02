@@ -29,5 +29,14 @@
     <h3 class="product-card__name">{{ name }}</h3>
     <p class="product-card__description">{{ description }}</p>
     <p class="product-card__price">{{ price | currency : 'USD' }}</p>
+
+    <button 
+      *ngIf="showAddToCartButton"
+      class="product-card__add-to-cart-btn"
+      (click)="onAddToCartClick()"
+      aria-label="Agregar al carrito"
+    >
+      Agregar al Carrito
+    </button>
   </div>
 </div> 
