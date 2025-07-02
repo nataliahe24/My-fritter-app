@@ -1,7 +1,7 @@
-<app-buyer-main-template>
+<app-buyer-main-template (openCart)="onCartClick()">
   <div class="title-container">
     <h1 class="products-page-title">Nuestros Productos</h1>
     <img src="assets/images/muñeco.png" alt="Products illustration" class="title-image" />
   </div>
-  <app-product-list></app-product-list>
+  <app-product-list (openCart)="onCartClick()"></app-product-list>
 </app-buyer-main-template>
