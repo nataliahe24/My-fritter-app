@@ -1,0 +1,12 @@
+<button 
+  type="button" 
+  class="cart-button"
+  (click)="onCartClick()"
+  aria-label="Ver carrito de compras">
+  
+  <span class="cart-icon">🛒</span>
+  
+  <span class="cart-count" *ngIf="totalItems > 0">
+    {{ totalItems > 99 ? '99+' : totalItems }}
+  </span>
+</button> 

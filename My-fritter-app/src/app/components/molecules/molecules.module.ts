@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductUpdateModalComponent } from './product-update-modal/product-update-modal.component';
 import { DeleteProductModalComponent } from './delete-product-modal/delete-product-modal.component';
+import { CartModalComponent } from './cart-modal/cart-modal.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { DeleteProductModalComponent } from './delete-product-modal/delete-produ
     SidebarComponent,
     ProductCardComponent,
     ProductUpdateModalComponent,
-    DeleteProductModalComponent
+    DeleteProductModalComponent,
+    CartModalComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +30,8 @@ import { DeleteProductModalComponent } from './delete-product-modal/delete-produ
     SidebarComponent,
     ProductCardComponent,
     ProductUpdateModalComponent,
-    DeleteProductModalComponent
+    DeleteProductModalComponent,
+    CartModalComponent
   ]
 })
 export class MoleculesModule { } 

@@ -1,0 +1,176 @@
+<div class="modal-overlay" *ngIf="isVisible" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Carrito de Compras</h2>
+      <button type="button" class="close-btn" (click)="onClose()">
+        &times;
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="cart-items" *ngIf="cartItems.length > 0; else emptyCart">
+        <div class="cart-item" *ngFor="let item of cartItems">
+          <div class="item-image">
+            <img [src]="item.product.imageUrl" [alt]="item.product.name">
+          </div>
+          
+          <div class="item-details">
+            <h4>{{ item.product.name }}</h4>
+            <p class="item-description">{{ item.product.description }}</p>
+            <p class="item-price">${{ item.product.price | number:'1.0-0' }}</p>
+          </div>
+          
+          <div class="item-quantity">
+            <label>Cantidad:</label>
+            <app-quantity-input 
+              [min]="1" 
+              [max]="99"
+              (quantityChange)="onQuantityChange(item.product.id, $event)">
+            </app-quantity-input>
+          </div>
+          
+          <div class="item-subtotal">
+            <span>Subtotal:</span>
+            <span class="subtotal-price">${{ item.product.price * item.quantity | number:'1.0-0' }}</span>
+          </div>
+          
+          <button 
+            type="button" 
+            class="remove-btn"
+            (click)="onRemoveItem(item.product.id)"
+            aria-label="Eliminar producto">
+            &times;
+          </button>
+        </div>
+
+        <div class="cart-summary">
+          <div class="summary-row">
+            <span>Total de productos:</span>
+            <span>{{ totalItems }}</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total a pagar:</span>
+            <span class="total-price">${{ totalPrice | number:'1.0-0' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #emptyCart>
+        <div class="empty-cart">
+          <p>Tu carrito está vacío</p>
+          <p>Agrega algunos productos para continuar</p>
+        </div>
+      </ng-template>
+
+      <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="order-form" *ngIf="cartItems.length > 0">
+        <div class="form-section">
+          <h4>Información de Contacto</h4>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="recipientName">Nombre del Destinatario *</label>
+              <input 
+                type="text" 
+                id="recipientName"
+                formControlName="recipientName"
+                placeholder="Nombre completo">
+            </div>
+            
+            <div class="form-group">
+              <label for="phoneNumber">Teléfono *</label>
+              <input 
+                type="tel" 
+                id="phoneNumber"
+                formControlName="phoneNumber"
+                placeholder="+57 300 123 4567">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h4>Dirección de Envío</h4>
+          
+          <div class="form-group">
+            <label for="street">Dirección *</label>
+            <input 
+              type="text" 
+              id="street"
+              formControlName="street"
+              placeholder="Calle, número, apartamento">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="city">Ciudad *</label>
+              <input 
+                type="text" 
+                id="city"
+                formControlName="city"
+                placeholder="Ciudad">
+            </div>
+            
+            <div class="form-group">
+              <label for="state">Departamento/Estado *</label>
+              <input 
+                type="text" 
+                id="state"
+                formControlName="state"
+                placeholder="Departamento">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="country">País *</label>
+              <input 
+                type="text" 
+                id="country"
+                formControlName="country"
+                placeholder="País">
+            </div>
+            
+            <div class="form-group">
+              <label for="postalCode">Código Postal *</label>
+              <input 
+                type="text" 
+                id="postalCode"
+                formControlName="postalCode"
+                placeholder="Código postal">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h4>Método de Pago</h4>
+          
+          <div class="form-group">
+            <label for="paymentMethod">Forma de Pago *</label>
+            <select id="paymentMethod" formControlName="paymentMethod">
+              <option value="transferencia">Transferencia Bancaria</option>
+              <option value="efectivo">Efectivo</option>
+              <option value="tarjeta">Tarjeta de Crédito/Débito</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button 
+            type="button" 
+            class="btn-secondary"
+            (click)="onClose()"
+            [disabled]="loading">
+            Cancelar
+          </button>
+          
+          <button 
+            type="submit" 
+            class="btn-primary"
+            [disabled]="orderForm.invalid || loading || cartItems.length === 0">
+            <span *ngIf="loading">Procesando...</span>
+            <span *ngIf="!loading">Confirmar Pedido</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> 

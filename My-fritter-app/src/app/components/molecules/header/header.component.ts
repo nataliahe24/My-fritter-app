@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { LoginService } from 'src/app/core/services/login/login.service';
 
 interface NavItem {
@@ -12,15 +12,24 @@ interface NavItem {
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  constructor(private readonly loginService: LoginService) {}
+  @Output() openCart = new EventEmitter<void>();
+  @Input() showCart: boolean = true;
+  
+  constructor(private readonly loginService: LoginService) {
+  }
 
   user = {
     name: this.loginService.getCurrentUser()?.name ?? '',
+    role: this.loginService.getCurrentUser()?.role ?? null,
     avatar: '/assets/images/usuario.png'
   };
-  menuItems = [
-    { icon: 'category', label: 'Categorías', route: '/categories'},
-    { icon: 'location_on', label: 'Ubicaciones', route: '/locations'},
-    { icon: 'person', label: 'Usuarios', route: '/users'}
-  ];
+
+  get shouldShowCart(): boolean {
+    return this.showCart && this.user.role?.name === 'BUYER';
+  }
+
+  onCartClick(): void {
+    console.log('Header cart click!');
+    this.openCart.emit();
+  }
 } 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-buyer-main-template',
@@ -6,13 +6,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./buyer-template.component.scss']
 })
 export class BuyerTemplateComponent {
+  @Output() openCart = new EventEmitter<void>();
+
   isSidebarCollapsed = true;
    navItems = [
-    { label: 'Productos', icon: 'inventory_2', route: '/products' },
-    { label: 'Pedidos', icon: 'shopping_cart', route: '/orders' },
+    { label: 'Productos', icon: 'inventory_2', route: '/products' }
   ];
 
   toggleSidebar(): void {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+
+  onCartClick(): void {
+    this.openCart.emit();
   }
 } 

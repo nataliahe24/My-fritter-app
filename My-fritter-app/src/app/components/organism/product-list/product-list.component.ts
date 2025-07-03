@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Product, UpdateProductDto } from 'src/app/core/models/product.model';
 import { ProductsService } from 'src/app/core/services/products/products.service';
+import { CartService } from 'src/app/core/services/cart/cart.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -13,6 +14,7 @@ import { environment } from 'src/environments/environment';
 export class ProductListComponent implements OnInit {
   @Input() isAdmin = false;
   @Output() productUpdated = new EventEmitter<void>();
+  @Output() openCart = new EventEmitter<void>();
 
   products$?: Observable<Product[]>;
   currentPage$ = new BehaviorSubject<number>(0);
@@ -24,6 +26,9 @@ export class ProductListComponent implements OnInit {
   selectedProduct: Product | null = null;
   isDeleteModalOpen = false;
   productToDelete: Product | null = null;
+  isOrderModalOpen = false;
+  productToOrder: Product | null = null;
+  isCartModalOpen = false;
   isLoading = false;
 
   private readonly fallbackImages: string[] = [
@@ -32,7 +37,10 @@ export class ProductListComponent implements OnInit {
     'assets/images/buñuelo1.png',
   ];
 
-  constructor(private productsService: ProductsService) {}
+  constructor(
+    private productsService: ProductsService,
+    private cartService: CartService
+  ) {}
 
   ngOnInit(): void {
     this.products$ = this.currentPage$.pipe(
@@ -76,6 +84,11 @@ export class ProductListComponent implements OnInit {
     this.isDeleteModalOpen = true;
   }
 
+  onOrderProduct(product: Product): void {
+    this.productToOrder = product;
+    this.isOrderModalOpen = true;
+  }
+
   onCloseModal(): void {
     this.isModalOpen = false;
     this.selectedProduct = null;
@@ -84,6 +97,39 @@ export class ProductListComponent implements OnInit {
   onCloseDeleteModal(): void {
     this.isDeleteModalOpen = false;
     this.productToDelete = null;
+  }
+
+  onCloseOrderModal(): void {
+    this.isOrderModalOpen = false;
+    this.productToOrder = null;
+  }
+
+  onOrderCreated(): void {
+    this.onCloseOrderModal();
+  }
+
+  onAddToCart(product: Product): void {
+    this.cartService.addToCart(product, 1);
+  }
+
+  onOpenCart(): void {
+    console.log('Product list onOpenCart called!');
+    this.isCartModalOpen = true;
+    this.openCart.emit();
+  }
+
+  onCloseCartModal(): void {
+    this.isCartModalOpen = false;
+  }
+
+  onCartOrderCreated(): void {
+    this.onCloseCartModal();
+  }
+
+  
+  openCartModal(): void {
+    console.log('Product list openCartModal called!');
+    this.isCartModalOpen = true;
   }
 
   onConfirmDelete(): void {

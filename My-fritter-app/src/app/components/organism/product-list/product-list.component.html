@@ -2,14 +2,19 @@
   <div class="product-grid" *ngIf="products$ | async as products; else loading">
     <app-product-card 
       *ngFor="let product of products"
+      [product]="product"
       [name]="product.name"
       [description]="product.description"
       [price]="product.price"
       [imageUrl]="product.imageUrl"
       [showEditButton]="isAdmin"
       [showDeleteButton]="isAdmin"
+      [showOrderButton]="!isAdmin"
+      [showAddToCartButton]="!isAdmin"
       (editProduct)="onEditProduct(product)"
       (deleteProduct)="onDeleteProduct(product)"
+      (orderProduct)="onOrderProduct($event)"
+      (addToCart)="onAddToCart($event)"
     ></app-product-card>
   </div>
 
@@ -44,7 +49,7 @@
     </button>
   </div>
 
-  <!-- Product Update Modal -->
+ 
   <app-product-update-modal
     [product]="selectedProduct"
     [isOpen]="isModalOpen"
@@ -53,7 +58,7 @@
     (updateProduct)="onUpdateProduct($event)"
   ></app-product-update-modal>
 
-  <!-- Delete Product Modal -->
+ 
   <app-delete-product-modal
     [product]="productToDelete"
     [isOpen]="isDeleteModalOpen"
@@ -61,4 +66,11 @@
     (closeModal)="onCloseDeleteModal()"
     (confirmDelete)="onConfirmDelete()"
   ></app-delete-product-modal>
+
+ 
+  <app-cart-modal
+    [isVisible]="isCartModalOpen"
+    (closeModal)="onCloseCartModal()"
+    (orderCreated)="onCartOrderCreated()"
+  ></app-cart-modal>
 </div>
