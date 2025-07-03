@@ -97,10 +97,10 @@
     }
 
     &--error {
-      border-color: #ef4444;
+      border-color: #e73e3e;
       
       &:focus {
-        border-color: #ef4444;
+        border-color: #e73e3e;
         box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
       }
     }
@@ -108,7 +108,7 @@
 
   &__error {
     font-size: 0.9rem;
-    color: #580d0d;
+    color: white;
     margin-top: 0.25rem;
   }
 

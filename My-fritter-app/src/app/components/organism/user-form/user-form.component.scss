@@ -2,14 +2,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
+  padding: 8rem;
   position: relative;
-  
 
   &__background {
     position: absolute;
     inset: 0;
     z-index: -1; 
+    height: 100%;
     background-color: #aa1a1a;
     background-image:
       radial-gradient(
