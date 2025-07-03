@@ -3,7 +3,7 @@
     <app-logo size="medium"></app-logo>
   </div>
   <div class="main-header__user-info">
-    <app-cart-button (openCart)="onCartClick()"></app-cart-button>
+    <app-cart-button (openCart)="onCartClick()" [showPopup]="false" *ngIf="showCart"></app-cart-button>
     <span class="welcome-text">Bienvenido, {{ user.name }}</span>
     <div class="user-icon" aria-label="User Account">
       <span class="material-icons">

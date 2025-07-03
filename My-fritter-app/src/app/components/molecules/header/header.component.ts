@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { LoginService } from 'src/app/core/services/login/login.service';
 
 interface NavItem {
@@ -13,12 +13,20 @@ interface NavItem {
 })
 export class HeaderComponent {
   @Output() openCart = new EventEmitter<void>();
-  constructor(private readonly loginService: LoginService) {}
+  @Input() showCart: boolean = true;
+  
+  constructor(private readonly loginService: LoginService) {
+  }
 
   user = {
     name: this.loginService.getCurrentUser()?.name ?? '',
+    role: this.loginService.getCurrentUser()?.role ?? null,
     avatar: '/assets/images/usuario.png'
   };
+
+  get shouldShowCart(): boolean {
+    return this.showCart && this.user.role?.name === 'BUYER';
+  }
 
   onCartClick(): void {
     console.log('Header cart click!');
