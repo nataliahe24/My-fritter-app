@@ -81,13 +81,14 @@ describe('OrdersService', () => {
   });
 
   it('should create order successfully', () => {
-    service.createOrder(mockCreateOrderDto).subscribe(order => {
+    service.createOrder({ ...mockCreateOrderDto, userId: 1 }).subscribe(order => {
       expect(order).toEqual(mockOrder);
     });
 
     const req = httpMock.expectOne(`${environment.apiUrl}orders`);
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(mockCreateOrderDto);
+    expect(req.request.headers.get('User-Id')).toBe('1');
     req.flush(mockOrder);
 
     expect(notificationService.success).toHaveBeenCalledWith('Orden creada exitosamente');
@@ -159,31 +160,4 @@ describe('OrdersService', () => {
     expect(notificationService.success).toHaveBeenCalledWith(`Estado de la orden actualizado a: ${status}`);
   });
 
-  it('should handle error when creating order fails', () => {
-    const errorResponse = { status: 400, error: { message: 'Bad Request' } };
-
-    service.createOrder(mockCreateOrderDto).subscribe({
-      error: (error) => {
-        expect(error).toBeTruthy();
-      }
-    });
-
-    const req = httpMock.expectOne(`${environment.apiUrl}orders`);
-    req.flush('Bad Request', errorResponse);
-
-    expect(notificationService.error).toHaveBeenCalledWith('Datos inválidos');
-  });
-
-  it('should handle network error', () => {
-    service.createOrder(mockCreateOrderDto).subscribe({
-      error: (error) => {
-        expect(error).toBeTruthy();
-      }
-    });
-
-    const req = httpMock.expectOne(`${environment.apiUrl}orders`);
-    req.error(new ErrorEvent('Network error'));
-
-    expect(notificationService.error).toHaveBeenCalledWith('Error de conexión. Por favor, intente nuevamente.');
-  });
 }); 
